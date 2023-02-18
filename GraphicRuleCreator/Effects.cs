@@ -25,6 +25,8 @@ namespace GraphicRuleCreator
         public bool detrimental { get; set; } = false;
         public bool modified { get; set; } = false;
 
+        public string file = "";
+
         public HashSet<Ingredient> References { get; set; } = new HashSet<Ingredient>();
 
         public static Dictionary<string, Effects> effects = new System.Collections.Generic.Dictionary<string, Effects>();

@@ -29,6 +29,8 @@ namespace GraphicRuleCreator
         public double Magnitude4 { get; set; } = 0;
         public bool modified { get; set; } = false;
 
+        public string file = "";
+
         public UInt64 effects { get; set; } = 0;
 
         public static List<Ingredient> ingredients = new List<Ingredient>();

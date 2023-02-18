@@ -75,6 +75,10 @@ namespace GraphicRuleCreator
             Effect2.SelectedIndex = GetIndex(ing.Effect2);
             Effect3.SelectedIndex = GetIndex(ing.Effect3);
             Effect4.SelectedIndex = GetIndex(ing.Effect4);
+
+
+            Name.Focus();
+            Name.SelectAll();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -181,6 +185,171 @@ namespace GraphicRuleCreator
             Utility.CalcAllReferences();
 
             Close();
+        }
+
+        private void Name_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Tab || e.Key == Key.Enter)
+            {
+                FormID.Focus();
+                FormID.SelectAll();
+            }
+        }
+
+        private void FormID_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Tab || e.Key == Key.Enter)
+            {
+                EditorID.Focus();
+                EditorID.SelectAll();
+            }
+        }
+
+        private void EditorID_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Tab || e.Key == Key.Enter)
+            {
+                PluginName.Focus();
+                PluginName.SelectAll();
+            }
+        }
+
+        private void PluginName_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Tab || e.Key == Key.Enter)
+            {
+                Weight.Focus();
+                Weight.SelectAll();
+            }
+        }
+
+        private void Weight_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Tab || e.Key == Key.Enter)
+            {
+                Value.Focus();
+                Value.SelectAll();
+            }
+        }
+
+        private void Value_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Tab || e.Key == Key.Enter)
+            {
+                Effect1.Focus();
+            }
+        }
+
+        private void Effect1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Tab || e.Key == Key.Enter)
+            {
+                Duration1.Focus();
+                Duration1.SelectAll();
+            }
+        }
+
+        private void Duration1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Tab || e.Key == Key.Enter)
+            {
+                Magnitude1.Focus();
+                Magnitude1.SelectAll();
+            }
+        }
+
+        private void Magnitude1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Tab || e.Key == Key.Enter)
+            {
+                Effect2.Focus();
+            }
+        }
+
+        private void Effect2_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Tab || e.Key == Key.Enter)
+            {
+                Duration2.Focus();
+                Duration2.SelectAll();
+            }
+        }
+
+        private void Duration2_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Tab || e.Key == Key.Enter)
+            {
+                Magnitude2.Focus();
+                Magnitude2.SelectAll();
+            }
+        }
+
+        private void Magnitude2_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Tab || e.Key == Key.Enter)
+            {
+                Effect3.Focus();
+            }
+        }
+
+        private void Effect3_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Tab || e.Key == Key.Enter)
+            {
+                Duration3.Focus();
+                Duration3.SelectAll();
+            }
+        }
+
+        private void Duration3_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Tab || e.Key == Key.Enter)
+            {
+                Magnitude3.Focus();
+                Magnitude3.SelectAll();
+            }
+        }
+
+        private void Magnitude3_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Tab || e.Key == Key.Enter)
+            {
+                Effect4.Focus();
+            }
+        }
+
+        private void Effect4_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Tab || e.Key == Key.Enter)
+            {
+                Duration4.Focus();
+                Duration4.SelectAll();
+            }
+        }
+
+        private void Duration4_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Tab || e.Key == Key.Enter)
+            {
+                Magnitude4.Focus();
+                Magnitude4.SelectAll();
+            }
+        }
+
+        private void Magnitude4_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Tab || e.Key == Key.Enter)
+            {
+                save.Focus();
+            }
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.S && Keyboard.IsKeyDown(Key.LeftCtrl))
+            {
+                Button_Click(sender, new RoutedEventArgs());
+            }
         }
     }
 }

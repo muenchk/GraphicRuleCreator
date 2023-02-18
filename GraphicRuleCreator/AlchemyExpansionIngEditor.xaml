@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GraphicRuleCreator"
         mc:Ignorable="d"
-        Title="AlchemyExpansionIngEditor" Height="450" Width="800" WindowStartupLocation="CenterOwner">
+        Title="AlchemyExpansionIngEditor" Height="450" Width="800" WindowStartupLocation="CenterScreen" KeyDown="Window_KeyDown">
     <Grid>
         <Label Content="Name" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="Name" HorizontalAlignment="Left" Margin="88,14,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="251"/>
+        <TextBox x:Name="Name" HorizontalAlignment="Left" Margin="88,14,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="251" KeyDown="Name_KeyDown"/>
         <Label Content="FormID" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
         <Label Content="EditorID" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top"/>
         <Label Content="PluginName" HorizontalAlignment="Left" Margin="10,103,0,0" VerticalAlignment="Top"/>
@@ -17,33 +17,33 @@
         <Label Content="Effect" HorizontalAlignment="Left" Margin="10,196,0,0" VerticalAlignment="Top"/>
         <Label Content="Duration" HorizontalAlignment="Left" Margin="344,196,0,0" VerticalAlignment="Top"/>
         <Label Content="Magnitude" HorizontalAlignment="Left" Margin="473,196,0,0" VerticalAlignment="Top"/>
-        <ComboBox x:Name="Effect1" HorizontalAlignment="Left" Margin="88,198,0,0" VerticalAlignment="Top" Width="251"/>
-        <TextBox x:Name="Duration1" HorizontalAlignment="Left" Margin="405,200,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="63"/>
-        <TextBox x:Name="Magnitude1" HorizontalAlignment="Left" Margin="546,200,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="63"/>
+        <ComboBox x:Name="Effect1" HorizontalAlignment="Left" Margin="88,198,0,0" VerticalAlignment="Top" Width="251" KeyDown="Effect1_KeyDown"/>
+        <TextBox x:Name="Duration1" HorizontalAlignment="Left" Margin="405,200,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="63" KeyDown="Duration1_KeyDown"/>
+        <TextBox x:Name="Magnitude1" HorizontalAlignment="Left" Margin="546,200,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="63" KeyDown="Magnitude1_KeyDown"/>
         <Label Content="Effect" HorizontalAlignment="Left" Margin="10,227,0,0" VerticalAlignment="Top"/>
         <Label Content="Duration" HorizontalAlignment="Left" Margin="344,227,0,0" VerticalAlignment="Top"/>
         <Label Content="Magnitude" HorizontalAlignment="Left" Margin="473,227,0,0" VerticalAlignment="Top"/>
-        <ComboBox x:Name="Effect2" HorizontalAlignment="Left" Margin="88,229,0,0" VerticalAlignment="Top" Width="251"/>
-        <TextBox x:Name="Duration2" HorizontalAlignment="Left" Margin="405,231,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="63"/>
-        <TextBox x:Name="Magnitude2" HorizontalAlignment="Left" Margin="546,231,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="63"/>
+        <ComboBox x:Name="Effect2" HorizontalAlignment="Left" Margin="88,229,0,0" VerticalAlignment="Top" Width="251" KeyDown="Effect2_KeyDown"/>
+        <TextBox x:Name="Duration2" HorizontalAlignment="Left" Margin="405,231,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="63" KeyDown="Duration2_KeyDown"/>
+        <TextBox x:Name="Magnitude2" HorizontalAlignment="Left" Margin="546,231,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="63" KeyDown="Magnitude2_KeyDown"/>
         <Label Content="Effect" HorizontalAlignment="Left" Margin="10,258,0,0" VerticalAlignment="Top"/>
         <Label Content="Duration" HorizontalAlignment="Left" Margin="344,258,0,0" VerticalAlignment="Top"/>
         <Label Content="Magnitude" HorizontalAlignment="Left" Margin="473,258,0,0" VerticalAlignment="Top"/>
-        <ComboBox x:Name="Effect3" HorizontalAlignment="Left" Margin="88,260,0,0" VerticalAlignment="Top" Width="251"/>
-        <TextBox x:Name="Duration3" HorizontalAlignment="Left" Margin="405,262,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="63"/>
-        <TextBox x:Name="Magnitude3" HorizontalAlignment="Left" Margin="546,262,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="63"/>
+        <ComboBox x:Name="Effect3" HorizontalAlignment="Left" Margin="88,260,0,0" VerticalAlignment="Top" Width="251" KeyDown="Effect3_KeyDown"/>
+        <TextBox x:Name="Duration3" HorizontalAlignment="Left" Margin="405,262,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="63" KeyDown="Duration3_KeyDown"/>
+        <TextBox x:Name="Magnitude3" HorizontalAlignment="Left" Margin="546,262,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="63" KeyDown="Magnitude3_KeyDown"/>
         <Label Content="Effect" HorizontalAlignment="Left" Margin="10,289,0,0" VerticalAlignment="Top"/>
         <Label Content="Duration" HorizontalAlignment="Left" Margin="344,289,0,0" VerticalAlignment="Top"/>
         <Label Content="Magnitude" HorizontalAlignment="Left" Margin="473,289,0,0" VerticalAlignment="Top"/>
-        <ComboBox x:Name="Effect4" HorizontalAlignment="Left" Margin="88,291,0,0" VerticalAlignment="Top" Width="251"/>
-        <TextBox x:Name="Duration4" HorizontalAlignment="Left" Margin="405,293,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="63"/>
-        <TextBox x:Name="Magnitude4" HorizontalAlignment="Left" Margin="546,293,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="63"/>
-        <TextBox x:Name="FormID" HorizontalAlignment="Left" Margin="88,45,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="251"/>
-        <TextBox x:Name="EditorID" HorizontalAlignment="Left" Margin="88,76,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="251"/>
-        <TextBox x:Name="PluginName" HorizontalAlignment="Left" Margin="88,107,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="251"/>
-        <TextBox x:Name="Weight" HorizontalAlignment="Left" Margin="88,138,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="251"/>
-        <TextBox x:Name="Value" HorizontalAlignment="Left" Margin="88,169,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="251"/>
-        <Button Content="Save" HorizontalAlignment="Left" Margin="10,356,0,0" VerticalAlignment="Top" Height="34" Width="80" Background="White" Click="Button_Click"/>
+        <ComboBox x:Name="Effect4" HorizontalAlignment="Left" Margin="88,291,0,0" VerticalAlignment="Top" Width="251" KeyDown="Effect4_KeyDown"/>
+        <TextBox x:Name="Duration4" HorizontalAlignment="Left" Margin="405,293,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="63" KeyDown="Duration4_KeyDown"/>
+        <TextBox x:Name="Magnitude4" HorizontalAlignment="Left" Margin="546,293,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="63" KeyDown="Magnitude4_KeyDown"/>
+        <TextBox x:Name="FormID" HorizontalAlignment="Left" Margin="88,45,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="251" KeyDown="FormID_KeyDown"/>
+        <TextBox x:Name="EditorID" HorizontalAlignment="Left" Margin="88,76,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="251" KeyDown="EditorID_KeyDown"/>
+        <TextBox x:Name="PluginName" HorizontalAlignment="Left" Margin="88,107,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="251" KeyDown="PluginName_KeyDown"/>
+        <TextBox x:Name="Weight" HorizontalAlignment="Left" Margin="88,138,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="251" KeyDown="Weight_KeyDown"/>
+        <TextBox x:Name="Value" HorizontalAlignment="Left" Margin="88,169,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="251" KeyDown="Value_KeyDown"/>
+        <Button x:Name="save" Content="Save" HorizontalAlignment="Left" Margin="10,356,0,0" VerticalAlignment="Top" Height="34" Width="80" Background="White" Click="Button_Click"/>
         <TextBlock x:Name="error" HorizontalAlignment="Left" Height="22" Margin="10,329,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="295" Foreground="Red" Background="White"/>
 
     </Grid>

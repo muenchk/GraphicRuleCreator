@@ -24,7 +24,7 @@ namespace GraphicRuleCreator
     /// </summary>
     public partial class AlchemyExpansionMain : Window
     {
-        public void ProcessRule(string rule)
+        public void ProcessRule(string rule, string file)
         {
             if (rule.Length <= 0) // empty
                 return;
@@ -107,6 +107,8 @@ namespace GraphicRuleCreator
                                         return false;
                                     };
 
+                                    eff.file = file;
+
                                     if (contains(eff))
                                         GraphicRuleCreator.Effects.effects.Remove(eff.name);
                                     GraphicRuleCreator.Effects.effects.Add(eff.name, eff);
@@ -186,6 +188,8 @@ namespace GraphicRuleCreator
                                         }
                                         return false;
                                     };
+
+                                    ing.file = file;
 
                                     if (contains(ing))
                                         Ingredient.ingredients.RemoveAll((x) => { if (x.FormID == ing.FormID || x.EditorID == ing.EditorID) return true; else return false; });
@@ -335,12 +339,14 @@ namespace GraphicRuleCreator
         int lc = 0;
         private void Load_Button_Click(object sender, RoutedEventArgs e)
         {
+            activeFile.Items.Clear();
+            activeFile.Items.Add("");
             lc++;
             WriteConsole("Loading files");
             GraphicRuleCreator.Effects.effects.Clear();
             Ingredient.ingredients.Clear();
             // get current dir
-            string? path = System.IO.Path.GetDirectoryName(typeof(AlchemyExpansionMain).Assembly.Location);
+            string path = Environment.CurrentDirectory;
             if (path != null)
             {
                 // search for all valid rule files in the current directory
@@ -359,15 +365,20 @@ namespace GraphicRuleCreator
                         {
                             string[] tmp = System.IO.File.ReadAllLines(file);
                             lines.AddRange(tmp);
+                            for (int i = 0; i < tmp.Length; i++)
+                            {
+                                ProcessRule(tmp[i], System.IO.Path.GetFileName(file));
+                            }
+                            activeFile.Items.Add(System.IO.Path.GetFileName(file));
                         }
                         catch { }
                     }
                 }
 
-                for (int i = 0; i < lines.Count; i++)
+                /*for (int i = 0; i < lines.Count; i++)
                 {
                     ProcessRule(lines[i]);
-                }
+                }*/
             }
 
             Utility.CalcAllReferences();
@@ -378,136 +389,166 @@ namespace GraphicRuleCreator
 
         private void Save_Button_Click(object sender, RoutedEventArgs e)
         {
+            string path = Environment.CurrentDirectory;
+            if (activeFile.SelectedIndex > 0 && path != null)
+                PerformSave(false, path + System.IO.Path.DirectorySeparatorChar + (activeFile.SelectedItem as String), (activeFile.SelectedItem as String));
+            else
+                Save(false);
+        }
+
+        public void Save(bool overwrite = false)
+        {
             WriteConsole("Saving Data");
             // get current dir
-            string? path = System.IO.Path.GetDirectoryName(typeof(AlchemyExpansionMain).Assembly.Location);
+            string path = Environment.CurrentDirectory;
             if (path != null)
             {
                 SaveFileDialog diag = new SaveFileDialog();
                 diag.AddExtension = true;
-                diag.DefaultExt = "_ALCH_DIST.ini";
+                diag.DefaultExt = "ini";
                 diag.InitialDirectory = path;
                 if (diag.ShowDialog() == true)
                 {
                     string file = diag.FileName;
-
-                    if (file != null)
+                    string custext = "_ALCH_DIST.ini";
+                    if (!file.Contains(custext))
                     {
-                        List<string> rules = new List<string>();
-
-                        rules.Add("; Configuration of the mod AlchemyExpansion");
-                        rules.Add("");
-                        rules.Add("");
-                        rules.Add(";;;;;;;;;; Effects ;;;;;;;;;;");
-
-                        Dictionary<string, List<Effects>> plugins = new Dictionary<string, List<Effects>>();
-
-                        foreach (KeyValuePair<string, Effects> eff in GraphicRuleCreator.Effects.effects)
-                        {
-                            List<Effects>? res;
-                            plugins.TryGetValue(eff.Value.PluginName, out res);
-                            if (res != null)
-                            {
-                                res.Add(eff.Value);
-                            }
-                            else
-                                plugins.Add(eff.Value.PluginName, new List<Effects>() { eff.Value });
-                        }
-
-                        foreach (KeyValuePair<string, List<Effects>> pair in plugins)
-                        {
-                            List<string> strings = new List<string>();
-
-                            var list = pair.Value;
-                            for (int i = 0; i < list.Count; i++)
-                            {
-                                if (list[i].modified == false)
-                                    continue;
-                                if (list[i].EditorID != "")
-                                    strings.Add("; " + list[i].EditorID);
-                                strings.Add(CreateRule_Effect(list[i]));
-                                strings.Add("");
-                            }
-
-                            if (strings.Count > 0)
-                            {
-                                rules.Add(";;;;; " + pair.Key + " ;;;;;");
-                                rules.Add("");
-
-                                rules.AddRange(strings);
-
-                                rules.Add("");
-                                rules.Add("");
-                            }
-                        }
-
-                        rules.Add("");
-                        rules.Add("");
-                        rules.Add(";;;;;;;;;; Ingredients ;;;;;;;;;;");
-
-                        plugins.Clear();
-                        Dictionary<string, List<Ingredient>> pluginsI = new Dictionary<string, List<Ingredient>>();
-
-                        foreach (Ingredient ing in Ingredient.ingredients)
-                        {
-                            List<Ingredient>? res;
-                            pluginsI.TryGetValue(ing.PluginName, out res);
-                            if (res != null)
-                            {
-                                res.Add(ing);
-                            }
-                            else
-                                pluginsI.Add(ing.PluginName, new List<Ingredient>() { ing });
-                        }
-
-                        foreach (KeyValuePair<string, List<Ingredient>> pair in pluginsI)
-                        {
-                            List<string> strings = new List<string>();
-
-                            var list = pair.Value;
-                            for (int i = 0; i < list.Count; i++)
-                            {
-                                if (list[i].modified == false)
-                                    continue;
-                                if (list[i].EditorID != "")
-                                    strings.Add("; " + list[i].EditorID);
-                                strings.Add(CreateRule_Ingredient(list[i]));
-                                strings.Add("");
-                            }
-
-                            if (strings.Count > 0)
-                            {
-                                rules.Add(";;;;; " + pair.Key + " ;;;;;");
-                                rules.Add("");
-
-                                rules.AddRange(strings);
-
-                                rules.Add("");
-                                rules.Add("");
-                            }
-
-                        }
-
-                        try
-                        {
-                            System.IO.File.WriteAllLinesAsync(file, rules.ToArray());
-                        }
-                        catch
-                        {
-
-                        }
-
-                        WriteConsole("Saving Finished");
-                        return;
+                        file = file.Substring(0, file.Length - 4);
+                        file += "_ALCH_DIST.ini";
                     }
+
+                    PerformSave(overwrite, file);
                 }
             }
             WriteConsole("Saving Failed");
         }
 
+        public void PerformSave(bool overwrite, string file, string filename = "")
+        {
+            if (file != null)
+            {
+                List<string> rules = new List<string>();
+
+                rules.Add("; Configuration of the mod AlchemyExpansion");
+                rules.Add("");
+                rules.Add("");
+                rules.Add(";;;;;;;;;; Effects ;;;;;;;;;;");
+
+                Dictionary<string, List<Effects>> plugins = new Dictionary<string, List<Effects>>();
+
+                foreach (KeyValuePair<string, Effects> eff in GraphicRuleCreator.Effects.effects)
+                {
+                    List<Effects>? res;
+                    plugins.TryGetValue(eff.Value.PluginName, out res);
+                    if (res != null)
+                    {
+                        res.Add(eff.Value);
+                    }
+                    else
+                        plugins.Add(eff.Value.PluginName, new List<Effects>() { eff.Value });
+                }
+
+                foreach (KeyValuePair<string, List<Effects>> pair in plugins)
+                {
+                    List<string> strings = new List<string>();
+
+                    var list = pair.Value;
+                    for (int i = 0; i < list.Count; i++)
+                    {
+                        if (list[i].modified == false && !overwrite && list[i].file != filename)
+                            continue;
+                        if (list[i].EditorID != "")
+                            strings.Add("; " + list[i].EditorID);
+                        strings.Add(CreateRule_Effect(list[i]));
+                        strings.Add("");
+                    }
+
+                    if (strings.Count > 0)
+                    {
+                        rules.Add(";;;;; " + pair.Key + " ;;;;;");
+                        rules.Add("");
+
+                        rules.AddRange(strings);
+
+                        rules.Add("");
+                        rules.Add("");
+                    }
+                }
+
+                rules.Add("");
+                rules.Add("");
+                rules.Add(";;;;;;;;;; Ingredients ;;;;;;;;;;");
+
+                plugins.Clear();
+                Dictionary<string, List<Ingredient>> pluginsI = new Dictionary<string, List<Ingredient>>();
+
+                foreach (Ingredient ing in Ingredient.ingredients)
+                {
+                    List<Ingredient>? res;
+                    pluginsI.TryGetValue(ing.PluginName, out res);
+                    if (res != null)
+                    {
+                        res.Add(ing);
+                    }
+                    else
+                        pluginsI.Add(ing.PluginName, new List<Ingredient>() { ing });
+                }
+
+                foreach (KeyValuePair<string, List<Ingredient>> pair in pluginsI)
+                {
+                    List<string> strings = new List<string>();
+
+                    var list = pair.Value;
+                    for (int i = 0; i < list.Count; i++)
+                    {
+                        if (list[i].modified == false && !overwrite && list[i].file != filename)
+                            continue;
+                        if (list[i].EditorID != "")
+                            strings.Add("; " + list[i].EditorID);
+                        strings.Add(CreateRule_Ingredient(list[i]));
+                        strings.Add("");
+                    }
+
+                    if (strings.Count > 0)
+                    {
+                        rules.Add(";;;;; " + pair.Key + " ;;;;;");
+                        rules.Add("");
+
+                        rules.AddRange(strings);
+
+                        rules.Add("");
+                        rules.Add("");
+                    }
+
+                }
+
+                try
+                {
+                    System.IO.File.WriteAllLinesAsync(file, rules.ToArray());
+                }
+                catch
+                {
+
+                }
+
+                WriteConsole("Saving Finished");
+                return;
+            }
+        }
+
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Environment.Exit(0);
+        }
+
+        private void Save_Overwrite_Click(object sender, RoutedEventArgs e)
+        {
+            Save(true);
+        }
+
+        private void SelectActiveFile_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

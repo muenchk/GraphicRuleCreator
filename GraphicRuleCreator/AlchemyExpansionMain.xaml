@@ -10,5 +10,8 @@
         <Button x:Name="Load_Button" Content="Load Configuration" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="35" Width="149" Background="White" Click="Load_Button_Click"/>
         <Button x:Name="Save_Button" Content="Save Configuration" HorizontalAlignment="Left" Margin="200,10,0,0" VerticalAlignment="Top" Height="35" Width="149" Background="White" Click="Save_Button_Click"/>
         <TextBox x:Name="console" Margin="10,74,10,10" TextWrapping="Wrap"/>
+        <Button x:Name="Save_Overwrite" Content="Save as New" HorizontalAlignment="Left" Margin="400,10,0,0" VerticalAlignment="Top" Height="35" Width="149" Background="White" Click="Save_Overwrite_Click"/>
+        <ComboBox x:Name="activeFile" HorizontalAlignment="Left" Margin="614,38,0,0" VerticalAlignment="Top" Width="176"/>
+        <Label Content="Active File" HorizontalAlignment="Left" Margin="613,6,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>

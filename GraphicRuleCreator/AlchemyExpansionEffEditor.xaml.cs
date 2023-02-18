@@ -53,6 +53,10 @@ namespace GraphicRuleCreator
             AlchemyEffectName.Content = Utility.ToString(Utility.ConvertToAlchemyEffect(eff.ActorValue));
             Detrimental.IsChecked = eff.detrimental;
             effect = eff;
+
+
+            Name.Focus();
+            Name.SelectAll();
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -121,6 +125,59 @@ namespace GraphicRuleCreator
         private void overwrite_Unchecked(object sender, RoutedEventArgs e)
         {
             alchemyOverwrite.IsEnabled = false;
+        }
+
+        private void Name_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Tab || e.Key == Key.Enter)
+            {
+                FormID.Focus();
+                FormID.SelectAll();
+            }
+        }
+
+        private void FormID_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Tab || e.Key == Key.Enter)
+            {
+                EditorID.Focus();
+                EditorID.SelectAll();
+            }
+        }
+
+        private void EditorID_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Tab || e.Key == Key.Enter)
+            {
+                PLuginName.Focus();
+                PLuginName.SelectAll();
+            }
+        }
+
+        private void PLuginName_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Tab || e.Key == Key.Enter)
+                actorValue.Focus();
+        }
+
+        private void actorValue_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Tab)
+                Detrimental.Focus();    
+        }
+
+        private void Detrimental_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Tab)
+                save.Focus();
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.S && Keyboard.IsKeyDown(Key.LeftCtrl))
+            {
+                Button_Click(sender, new RoutedEventArgs());
+            }
         }
     }
 }

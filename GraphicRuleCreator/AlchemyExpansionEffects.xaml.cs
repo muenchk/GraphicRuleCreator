@@ -27,6 +27,26 @@ namespace GraphicRuleCreator
             InitializeComponent();
             Update();
             this.parentWindow = parentWindow;
+
+            ContextMenu menu = new ContextMenu();
+            EffectView.ContextMenu = menu;
+            MenuItem m = new MenuItem();
+            m.Header = "References";
+            m.Click += M_Click;
+            menu.Items.Add(m);
+        }
+
+        private void M_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (EffectView.SelectedItem != null)
+            {
+                Effects eff = EffectView.SelectedItem as Effects;
+
+                AlchemyExpansionIngredients editor = new AlchemyExpansionIngredients(parentWindow, true, eff.name);
+                editor.Title = "AlchemyExpansion - Ingredients - Filter - " + eff.name;
+                editor.Show();
+            }
         }
 
         public void Update()
@@ -69,32 +89,19 @@ namespace GraphicRuleCreator
 
         private void Eff_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (e.ClickCount == 2)
+            if (EffectView.SelectedItem != null)
             {
-                if (EffectView.SelectedItem != null)
+                Effects eff = EffectView.SelectedItem as Effects;
+                string oldname = eff.name;
+                AlchemyExpansionEffEditor editor = new AlchemyExpansionEffEditor(eff);
+                editor.ShowDialog();
+                if (oldname != eff.name)
                 {
-                    Effects eff = EffectView.SelectedItem as Effects;
-                    string oldname = eff.name;
-                    AlchemyExpansionEffEditor editor = new AlchemyExpansionEffEditor(eff);
-                    editor.ShowDialog();
-                    if (oldname != eff.name)
-                    {
-                        Effects.effects.Remove(oldname);
-                        Effects.effects.Add(eff.name, eff);
-                    }
-
-                    Update();
+                    Effects.effects.Remove(oldname);
+                    Effects.effects.Add(eff.name, eff);
                 }
-            }
-            else
-            {
-                if (EffectView.SelectedItem != null)
-                {
-                    Effects eff = EffectView.SelectedItem as Effects;
 
-                    AlchemyExpansionIngredients editor = new AlchemyExpansionIngredients(parentWindow, true, eff.name);
-                    editor.Show();
-                }
+                Update();
             }
         }
 
