@@ -1,0 +1,58 @@
+﻿<Window x:Class="GraphicRuleCreator.AlchemyExpansionEffects"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GraphicRuleCreator"
+        mc:Ignorable="d"
+        Title="AlchemyExpansion - Effects" Height="900" Width="900" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <ListView x:Name="EffectView" Margin="10,50,10,0" ScrollViewer.HorizontalScrollBarVisibility="Auto" Height="816" VerticalAlignment="Top" MouseDoubleClick="Eff_MouseDoubleClick"  >
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="150" DisplayMemberBinding="{Binding name}" >
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="Name" Click="GridViewColumnHeader_Click">Name</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn Width="100" DisplayMemberBinding="{Binding EditorID}" >
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="EditorID" Click="GridViewColumnHeader_Click">EditorID</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn Width="80" DisplayMemberBinding="{Binding FormID,StringFormat={}0x{0:X8}}" >
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="FormID" Click="GridViewColumnHeader_Click">FormID</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn Width="100" DisplayMemberBinding="{Binding PluginName}" >
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="PluginName" Click="GridViewColumnHeader_Click">PluginName</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn Width="120" DisplayMemberBinding="{Binding ActorValueName}" >
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="ActorValue" Click="GridViewColumnHeader_Click">ActorValue</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn Width="150" DisplayMemberBinding="{Binding AlchemyEffectName}" >
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="AlchemyEffectName" Click="GridViewColumnHeader_Click">AlchemyEffect</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn Width="70" DisplayMemberBinding="{Binding Detrimental}" >
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="Detrimental" Click="GridViewColumnHeader_Click">Detrimental</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn Width="70" DisplayMemberBinding="{Binding References.Count}" >
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="Usages" Click="GridViewColumnHeader_Click">Usages</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button Content="New Effect" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="35" Width="106" Background="{x:Null}" Click="Button_Click"/>
+    </Grid>
+</Window>

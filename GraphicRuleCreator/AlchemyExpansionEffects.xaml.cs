@@ -1,0 +1,115 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Effects;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+
+namespace GraphicRuleCreator
+{
+    /// <summary>
+    /// Interaction logic for AlchemyExpansionEffects.xaml
+    /// </summary>
+    public partial class AlchemyExpansionEffects : Window
+    {
+        AlchemyExpansionMain parentWindow;
+        public AlchemyExpansionEffects(AlchemyExpansionMain parentWindow)
+        {
+            InitializeComponent();
+            Update();
+            this.parentWindow = parentWindow;
+        }
+
+        public void Update()
+        {
+            EffectView.Items.Clear();
+            foreach (KeyValuePair<string, Effects> eff in GraphicRuleCreator.Effects.effects)
+            {
+                EffectView.Items.Add(eff.Value);
+            }
+        }
+
+
+        private GridViewColumnHeader? listViewSortCol = null;
+        private SortAdorner? listViewSortAdorner;
+
+        private void GridViewColumnHeader_Click(object sender, RoutedEventArgs e)
+        {
+            
+            if (sender != null)
+            {
+                GridViewColumnHeader column = sender as GridViewColumnHeader;
+                string sortBy = column.Tag.ToString();
+                if (listViewSortCol != null)
+                {
+                    AdornerLayer.GetAdornerLayer(listViewSortCol).Remove(listViewSortAdorner);
+                    EffectView.Items.SortDescriptions.Clear();
+                }
+
+                ListSortDirection newDir = ListSortDirection.Ascending;
+                if (listViewSortCol == column && listViewSortAdorner != null && listViewSortAdorner.Direction == newDir)
+                    newDir = ListSortDirection.Descending;
+
+                listViewSortCol = column;
+                listViewSortAdorner = new SortAdorner(listViewSortCol, newDir);
+                AdornerLayer.GetAdornerLayer(listViewSortCol).Add(listViewSortAdorner);
+                EffectView.Items.SortDescriptions.Add(new SortDescription(sortBy, newDir));
+            }
+
+        }
+
+        private void Eff_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ClickCount == 2)
+            {
+                if (EffectView.SelectedItem != null)
+                {
+                    Effects eff = EffectView.SelectedItem as Effects;
+                    string oldname = eff.name;
+                    AlchemyExpansionEffEditor editor = new AlchemyExpansionEffEditor(eff);
+                    editor.ShowDialog();
+                    if (oldname != eff.name)
+                    {
+                        Effects.effects.Remove(oldname);
+                        Effects.effects.Add(eff.name, eff);
+                    }
+
+                    Update();
+                }
+            }
+            else
+            {
+                if (EffectView.SelectedItem != null)
+                {
+                    Effects eff = EffectView.SelectedItem as Effects;
+
+                    AlchemyExpansionIngredients editor = new AlchemyExpansionIngredients(parentWindow, true, eff.name);
+                    editor.Show();
+                }
+            }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Effects eff = new Effects();
+            AlchemyExpansionEffEditor editor = new AlchemyExpansionEffEditor(eff);
+            editor.ShowDialog();
+            Effects.effects.Add(eff.name, eff);
+            Update();
+        }
+
+        private void EffectView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+    }
+}

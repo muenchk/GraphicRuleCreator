@@ -1,0 +1,109 @@
+﻿<Window x:Class="GraphicRuleCreator.AlchemyExpansionIngredients"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GraphicRuleCreator"
+        mc:Ignorable="d"
+        Title="Alchemy Expansion - Ingredients" Height="900" Width="1600" Closing="Window_Closing" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <ListView x:Name="IngredienstView" Margin="10,50,10,0" ScrollViewer.HorizontalScrollBarVisibility="Auto" Background="White" MouseDoubleClick="Ing_MouseDoubleClick" Height="824" VerticalAlignment="Top" >
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="150" DisplayMemberBinding="{Binding name}" >
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="name" Click="GridViewColumnHeader_Click">Name</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn Width="100" DisplayMemberBinding="{Binding EditorID}" >
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="EditorID" Click="GridViewColumnHeader_Click">EditorID</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn Width="80" DisplayMemberBinding="{Binding FormID,StringFormat={}0x{0:X8}}" >
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="FormID" Click="GridViewColumnHeader_Click">FormID</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn Width="100" DisplayMemberBinding="{Binding PluginName}" >
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="PluginName" Click="GridViewColumnHeader_Click">PluginName</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn Width="50" DisplayMemberBinding="{Binding Weight}" >
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="Weight" Click="GridViewColumnHeader_Click">Weight</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn Width="50" DisplayMemberBinding="{Binding value}" >
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="value" Click="GridViewColumnHeader_Click">Value</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn  Width="150" DisplayMemberBinding="{Binding Effect1}" >
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="Effect1" Click="GridViewColumnHeader_Click">Effect1</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn  Width="50" DisplayMemberBinding="{Binding Duration1}" >
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="Duration1" Click="GridViewColumnHeader_Click">Dur</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn  Width="50" DisplayMemberBinding="{Binding Magnitude1}" >
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="Magnitude1" Click="GridViewColumnHeader_Click">Mag</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn Width="150" DisplayMemberBinding="{Binding Effect2}" >
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="Effect2" Click="GridViewColumnHeader_Click">Effect2</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn  Width="50" DisplayMemberBinding="{Binding Duration2}" >
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="Duration2" Click="GridViewColumnHeader_Click">Dur</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn  Width="50" DisplayMemberBinding="{Binding Magnitude2}" >
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="Magnitude2" Click="GridViewColumnHeader_Click">Mag</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn Width="150" DisplayMemberBinding="{Binding Effect3}" >
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="Effect3" Click="GridViewColumnHeader_Click">Effect3</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn  Width="50" DisplayMemberBinding="{Binding Duration3}" >
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="Duration3" Click="GridViewColumnHeader_Click">Dur</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn  Width="50" DisplayMemberBinding="{Binding Magnitude3}" >
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="Magnitude3" Click="GridViewColumnHeader_Click">Mag</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn Width="150" DisplayMemberBinding="{Binding Effect4}" >
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="Effect4" Click="GridViewColumnHeader_Click">Effect4</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn  Width="50" DisplayMemberBinding="{Binding Duration4}" >
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="Duration4" Click="GridViewColumnHeader_Click">Dur</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn  Width="50" DisplayMemberBinding="{Binding Magnitude4}" >
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Tag="Magnitude4" Click="GridViewColumnHeader_Click">Mag</GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button x:Name="createing" Content="New Ingredient" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="35" Width="134" Background="{x:Null}" Click="createing_Click"/>
+
+    </Grid>
+</Window>

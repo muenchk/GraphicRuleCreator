@@ -1,0 +1,30 @@
+﻿<Window x:Class="GraphicRuleCreator.AlchemyExpansionEffEditor"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GraphicRuleCreator"
+        mc:Ignorable="d"
+        Title="AlchemyExpansionEffEditor" Height="450" Width="800" WindowStartupLocation="CenterOwner">
+    <Grid>
+        <Label Content="Name" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <Label Content="FormID" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
+        <Label Content="EditorID" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top"/>
+        <Label Content="PluginName" HorizontalAlignment="Left" Margin="10,103,0,0" VerticalAlignment="Top"/>
+        <Label Content="ActorValue" HorizontalAlignment="Left" Margin="10,134,0,0" VerticalAlignment="Top"/>
+        <Label Content="Default Alchemy Effect" HorizontalAlignment="Left" Margin="10,165,0,0" VerticalAlignment="Top"/>
+        <Label Content="Detrimental" HorizontalAlignment="Left" Margin="10,283,0,0" VerticalAlignment="Top"/>
+        <Button Content="Save" HorizontalAlignment="Left" Margin="10,349,0,0" VerticalAlignment="Top" Height="35" Width="74" Background="{x:Null}" Click="Button_Click"/>
+        <CheckBox x:Name="Detrimental" Content="" HorizontalAlignment="Left" Margin="166,289,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="AlchemyEffectName" HorizontalAlignment="Left" Margin="166,165,0,0" VerticalAlignment="Top" Width="193" Height="26"/>
+        <ComboBox x:Name="actorValue" Margin="166,136,441,0" SelectionChanged="ComboBox_SelectionChanged" Height="22" VerticalAlignment="Top"/>
+        <TextBox x:Name="PLuginName" HorizontalAlignment="Left" Margin="166,107,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="EditorID" HorizontalAlignment="Left" Margin="166,76,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="FormID" HorizontalAlignment="Left" Margin="166,45,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="Name" HorizontalAlignment="Left" Margin="166,14,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+        <TextBlock x:Name="error" HorizontalAlignment="Left" Margin="10,328,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="349" Foreground="Red"/>
+        <CheckBox x:Name="overwrite" Content="Overwrite" HorizontalAlignment="Left" Margin="31,196,0,0" VerticalAlignment="Top" Checked="CheckBox_Checked" Unchecked="overwrite_Unchecked"/>
+        <ComboBox x:Name="alchemyOverwrite" HorizontalAlignment="Left" Margin="166,193,0,0" VerticalAlignment="Top" Width="193"/>
+
+    </Grid>
+</Window>

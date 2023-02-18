@@ -1,0 +1,15 @@
+﻿<Window x:Class="GraphicRuleCreator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GraphicRuleCreator"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="249" Width="430" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Grid>
+        <Label Content="Please choose the Mod you want to create rules for" HorizontalAlignment="Left" Height="32" Margin="65,67,0,0" VerticalAlignment="Top" Width="370"/>
+        <Button x:Name="Button_NPCsUsePotions" Content="NPCs Use Potions" HorizontalAlignment="Left" Margin="65,122,0,0" VerticalAlignment="Top" Background="White" Height="35" Width="137" Click="Button_NPCsUsePotions_Click"/>
+        <Button x:Name="Button_AlchemyExpansion" Content="AlchemyExpansion" HorizontalAlignment="Left" Margin="207,122,0,0" VerticalAlignment="Top" Background="White" Height="35" Width="137" Click="Button_AlchemyExpansion_Click"/>
+
+    </Grid>
+</Window>

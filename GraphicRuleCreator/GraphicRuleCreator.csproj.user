@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup />
+  <ItemGroup>
+    <ApplicationDefinition Update="App.xaml">
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="AlchemyExpansionEffects.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="AlchemyExpansionEffEditor.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="AlchemyExpansionIngEditor.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="AlchemyExpansionIngredients.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="AlchemyExpansionMain.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="NPCsUsePotionsMain.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="AlchemyExpansionEffects.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="AlchemyExpansionEffEditor.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="AlchemyExpansionIngEditor.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="AlchemyExpansionIngredients.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="AlchemyExpansionMain.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="NPCsUsePotionsMain.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+</Project>
