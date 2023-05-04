@@ -40,7 +40,7 @@
                             <GridViewColumnHeader Tag="AlchemyEffectName" Click="GridViewColumnHeader_Click">AlchemyEffect</GridViewColumnHeader>
                         </GridViewColumn.Header>
                     </GridViewColumn>
-                    <GridViewColumn Width="70" DisplayMemberBinding="{Binding Detrimental}" >
+                    <GridViewColumn Width="70" DisplayMemberBinding="{Binding detrimental}" >
                         <GridViewColumn.Header>
                             <GridViewColumnHeader Tag="Detrimental" Click="GridViewColumnHeader_Click">Detrimental</GridViewColumnHeader>
                         </GridViewColumn.Header>

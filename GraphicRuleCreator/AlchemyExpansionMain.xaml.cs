@@ -197,6 +197,109 @@ namespace GraphicRuleCreator
                                     break;
                             }
                             break;
+                        case 1003: // Potion
+                            switch (version)
+                            {
+                                case 1:
+                                    // we have 19 fields
+                                    if (splits.Length != 8)
+                                    {
+                                        return;
+                                    }
+                                    Potion pot = new Potion();
+
+                                    string ident = splits[index];
+                                    index++;
+                                    if (ident.Length > 3)
+                                    {
+                                        // remove brackets
+                                        ident = ident.Substring(1);
+                                        ident = ident.Substring(0, ident.Length - 1);
+                                    }
+                                    string[] spl = ident.Split(',');
+                                    if (spl.Length != 2)
+                                        return;
+                                    try
+                                    {
+                                        pot.FormID = UInt32.Parse(spl[0], System.Globalization.NumberStyles.HexNumber);
+                                    }
+                                    catch
+                                    {
+                                        pot.EditorID = spl[0];
+                                    }
+                                    pot.PluginName = spl[1];
+                                    pot.name = splits[index];
+                                    index++;
+                                    pot.EditorID = splits[index];
+                                    index++;
+                                    pot.Weight = Convert.ToDouble(splits[index]);
+                                    index++;
+                                    pot.value = Convert.ToInt32(splits[index]);
+                                    index++;
+
+                                    string[] effectssplit = splits[index].Split(';');
+                                    index++;
+                                    if (effectssplit.Length > 0)
+                                    {
+                                        string[] sp = effectssplit[0].Split(',');
+                                        pot.Effect1 = sp[0];
+                                        pot.Duration1 = Convert.ToInt32(sp[1]);
+                                        pot.Magnitude1 = Convert.ToDouble(sp[2]);
+                                    }
+                                    if (effectssplit.Length > 1)
+                                    {
+                                        string[] sp = effectssplit[1].Split(',');
+                                        pot.Effect2 = sp[0];
+                                        pot.Duration2 = Convert.ToInt32(sp[1]);
+                                        pot.Magnitude2 = Convert.ToDouble(sp[2]);
+                                    }
+                                    if (effectssplit.Length > 2)
+                                    {
+                                        string[] sp = effectssplit[2].Split(',');
+                                        pot.Effect3 = sp[0];
+                                        pot.Duration3 = Convert.ToInt32(sp[1]);
+                                        pot.Magnitude3 = Convert.ToDouble(sp[2]);
+                                    }
+                                    if (effectssplit.Length > 3)
+                                    {
+                                        string[] sp = effectssplit[3].Split(',');
+                                        pot.Effect4 = sp[0];
+                                        pot.Duration4 = Convert.ToInt32(sp[1]);
+                                        pot.Magnitude4 = Convert.ToDouble(sp[2]);
+                                    }
+                                    if (effectssplit.Length > 4)
+                                    {
+                                        string[] sp = effectssplit[4].Split(',');
+                                        pot.Effect5 = sp[0];
+                                        pot.Duration5 = Convert.ToInt32(sp[1]);
+                                        pot.Magnitude5 = Convert.ToDouble(sp[2]);
+                                    }
+                                    if (effectssplit.Length > 5)
+                                    {
+                                        string[] sp = effectssplit[5].Split(',');
+                                        pot.Effect6 = sp[0];
+                                        pot.Duration6 = Convert.ToInt32(sp[1]);
+                                        pot.Magnitude6 = Convert.ToDouble(sp[2]);
+                                    }
+
+                                    Func<Potion, bool> contains = (Potion x) =>
+                                    {
+                                        foreach (Potion i in Potion.potions)
+                                        {
+                                            if (x.FormID == i.FormID || x.EditorID == i.EditorID)
+                                                return true;
+                                        }
+                                        return false;
+                                    };
+
+                                    pot.file = file;
+
+                                    if (contains(pot))
+                                        Potion.potions.RemoveAll((x) => { if (x.FormID == pot.FormID || x.EditorID == pot.EditorID) return true; else return false; });
+                                    Potion.potions.Add(pot);
+                                    break;
+                            }
+                            break;
                     }
                 }
                 catch
@@ -250,6 +353,59 @@ namespace GraphicRuleCreator
             return rule;
         }
 
+        public string CreateRule_Potion(Potion pot)
+        {
+            string rule = "";
+            // version
+            rule += "1";
+            // type
+            rule += "|1003";
+            // ident
+            string ident = "<";
+            {
+                if (pot.FormID != 0)
+                    ident += pot.FormID.ToString("X");
+                else
+                    ident += pot.EditorID;
+                ident += ",";
+                ident += pot.PluginName;
+                ident += ">";
+            }
+            rule += "|" + ident;
+            // name
+            rule += "|" + pot.name;
+            rule += "|" + pot.EditorID;
+            rule += "|" + pot.Weight.ToString();
+            rule += "|" + pot.value.ToString();
+            rule += "|";
+            if (pot.Effect1 != "")
+            {
+                rule += pot.Effect1 + "," + pot.Duration1 + "," + pot.Magnitude1;
+            }
+            if (pot.Effect2 != "")
+            {
+                rule += ";" + pot.Effect2 + "," + pot.Duration2 + "," + pot.Magnitude2;
+            }
+            if (pot.Effect3 != "")
+            {
+                rule += ";" + pot.Effect3 + "," + pot.Duration3 + "," + pot.Magnitude3;
+            }
+            if (pot.Effect4 != "")
+            {
+                rule += ";" + pot.Effect4 + "," + pot.Duration4 + "," + pot.Magnitude4;
+            }
+            if (pot.Effect5 != "")
+            {
+                rule += ";" + pot.Effect5 + "," + pot.Duration5 + "," + pot.Magnitude5;
+            }
+            if (pot.Effect6 != "")
+            {
+                rule += ";" + pot.Effect6 + "," + pot.Duration6 + "," + pot.Magnitude6;
+            }
+
+            return rule;
+        }
+
         public string CreateRule_Effect(Effects eff)
         {
             string rule = "";
@@ -294,8 +450,10 @@ namespace GraphicRuleCreator
 
         AlchemyExpansionEffects WinEff;
         AlchemyExpansionIngredients WinIng;
+        AlchemyExpansionPotions WinPot;
 
         HashSet<AlchemyExpansionIngredients> updatesIng = new HashSet<AlchemyExpansionIngredients>();
+        HashSet<AlchemyExpansionPotions> updatesPot = new HashSet<AlchemyExpansionPotions>();
 
         public AlchemyExpansionMain()
         {
@@ -303,9 +461,12 @@ namespace GraphicRuleCreator
             // load all available rules
 
             updatesIng.Clear();
+            updatesPot.Clear();
 
             WinIng = new AlchemyExpansionIngredients(this);
             WinIng.Show();
+            WinPot = new AlchemyExpansionPotions(this);
+            WinPot.Show();
             WinEff = new AlchemyExpansionEffects(this);
             WinEff.Show();
         }
@@ -324,6 +485,9 @@ namespace GraphicRuleCreator
             WinEff.Update();
             foreach(var window in updatesIng)
                 window.Update();
+            WinPot.Update();
+            foreach (var window in updatesPot)
+                window.Update();
         }
 
         public void RegisterForUpdate(AlchemyExpansionIngredients window)
@@ -335,6 +499,17 @@ namespace GraphicRuleCreator
         {
             updatesIng.Remove(window);
         }
+
+        public void RegisterForUpdate(AlchemyExpansionPotions window)
+        {
+            updatesPot.Add(window);
+        }
+
+        public void UnregisterForUpdate(AlchemyExpansionPotions window)
+        {
+            updatesPot.Remove(window);
+        }
+
 
         int lc = 0;
         private void Load_Button_Click(object sender, RoutedEventArgs e)
@@ -506,6 +681,53 @@ namespace GraphicRuleCreator
                         if (list[i].EditorID != "")
                             strings.Add("; " + list[i].EditorID);
                         strings.Add(CreateRule_Ingredient(list[i]));
+                        strings.Add("");
+                    }
+
+                    if (strings.Count > 0)
+                    {
+                        rules.Add(";;;;; " + pair.Key + " ;;;;;");
+                        rules.Add("");
+
+                        rules.AddRange(strings);
+
+                        rules.Add("");
+                        rules.Add("");
+                    }
+
+                }
+
+                rules.Add("");
+                rules.Add("");
+                rules.Add(";;;;;;;;;; Potions ;;;;;;;;;;");
+
+                plugins.Clear();
+                Dictionary<string, List<Potion>> pluginsP = new Dictionary<string, List<Potion>>();
+
+                foreach (Potion pot in Potion.potions)
+                {
+                    List<Potion>? res;
+                    pluginsP.TryGetValue(pot.PluginName, out res);
+                    if (res != null)
+                    {
+                        res.Add(pot);
+                    }
+                    else
+                        pluginsP.Add(pot.PluginName, new List<Potion>() { pot });
+                }
+
+                foreach (KeyValuePair<string, List<Potion>> pair in pluginsP)
+                {
+                    List<string> strings = new List<string>();
+
+                    var list = pair.Value;
+                    for (int i = 0; i < list.Count; i++)
+                    {
+                        if (list[i].modified == false && !overwrite && list[i].file != filename)
+                            continue;
+                        if (list[i].EditorID != "")
+                            strings.Add("; " + list[i].EditorID);
+                        strings.Add(CreateRule_Potion(list[i]));
                         strings.Add("");
                     }
 

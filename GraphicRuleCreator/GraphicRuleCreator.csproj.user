@@ -24,6 +24,12 @@
     <Compile Update="AlchemyExpansionMain.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="AlchemyExpansionPotEditor.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="AlchemyExpansionPotions.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="NPCsUsePotionsMain.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -42,6 +48,12 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="AlchemyExpansionMain.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="AlchemyExpansionPotEditor.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="AlchemyExpansionPotions.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow.xaml">

@@ -993,6 +993,7 @@ public class Utility
     {
         // calculate references
         eff.References.Clear();
+        eff.ReferencesPotions.Clear();
         foreach (var ing in Ingredient.ingredients)
         {
             if (ing.Effect1 == eff.name)
@@ -1003,6 +1004,21 @@ public class Utility
                 eff.References.Add(ing);
             else if (ing.Effect4 == eff.name)
                 eff.References.Add(ing);
+        }
+        foreach (var pot in Potion.potions)
+        {
+            if (pot.Effect1 == eff.name)
+                eff.ReferencesPotions.Add(pot);
+            else if (pot.Effect2 == eff.name)
+                eff.ReferencesPotions.Add(pot);
+            else if (pot.Effect3 == eff.name)
+                eff.ReferencesPotions.Add(pot);
+            else if (pot.Effect4 == eff.name)
+                eff.ReferencesPotions.Add(pot);
+            else if (pot.Effect5 == eff.name)
+                eff.ReferencesPotions.Add(pot);
+            else if (pot.Effect6 == eff.name)
+                eff.ReferencesPotions.Add(pot);
         }
     }
 

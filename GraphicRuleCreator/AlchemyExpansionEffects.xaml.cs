@@ -31,9 +31,25 @@ namespace GraphicRuleCreator
             ContextMenu menu = new ContextMenu();
             EffectView.ContextMenu = menu;
             MenuItem m = new MenuItem();
-            m.Header = "References";
+            m.Header = "References Ingredients";
             m.Click += M_Click;
             menu.Items.Add(m);
+            MenuItem m2 = new MenuItem();
+            m2.Header = "References Potions";
+            m2.Click += M2_Click;
+            menu.Items.Add(m2);
+        }
+
+        private void M2_Click(object sender, RoutedEventArgs e)
+        {
+            if (EffectView.SelectedItem != null)
+            {
+                Effects eff = EffectView.SelectedItem as Effects;
+
+                AlchemyExpansionPotions editor = new AlchemyExpansionPotions(parentWindow, true, eff.name);
+                editor.Title = "AlchemyExpansion - Potions - Filter - " + eff.name;
+                editor.Show();
+            }
         }
 
         private void M_Click(object sender, RoutedEventArgs e)

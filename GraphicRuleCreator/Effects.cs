@@ -28,6 +28,7 @@ namespace GraphicRuleCreator
         public string file = "";
 
         public HashSet<Ingredient> References { get; set; } = new HashSet<Ingredient>();
+        public HashSet<Potion> ReferencesPotions { get; set; } = new HashSet<Potion>();
 
         public static Dictionary<string, Effects> effects = new System.Collections.Generic.Dictionary<string, Effects>();
     }

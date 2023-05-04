@@ -9,19 +9,16 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-
 
 namespace GraphicRuleCreator
 {
     /// <summary>
-    /// Interaction logic for AlchemyExpansionIngEditor.xaml
+    /// Interaction logic for AlchemyExpansionPotEditor.xaml
     /// </summary>
-    public partial class AlchemyExpansionIngEditor : Window
+    public partial class AlchemyExpansionPotEditor : Window
     {
-
         public int GetIndex(string x)
         {
             for (int i = 0; i < effList.Length; i++)
@@ -29,30 +26,34 @@ namespace GraphicRuleCreator
                 if (effList[i] == x)
                     return i;
             }
-            return effList.Length -1;
+            return effList.Length - 1;
         }
 
-        Ingredient ingredient;
+        Potion potion;
         string[] effList;
 
-        public AlchemyExpansionIngEditor(Ingredient ing)
+        public AlchemyExpansionPotEditor(Potion pot)
         {
             InitializeComponent();
-            ingredient = ing;
-            FormID.Text = ing.FormID.ToString("X");
-            EditorID.Text = ing.EditorID;
-            PluginName.Text = ing.PluginName;
-            Name.Text = ing.name;
-            Weight.Text = ing.Weight.ToString();
-            Value.Text = ing.value.ToString();
-            Duration1.Text = ing.Duration1.ToString();
-            Magnitude1.Text = ing.Magnitude1.ToString();
-            Duration2.Text = ing.Duration2.ToString();
-            Magnitude2.Text = ing.Magnitude2.ToString();
-            Duration3.Text = ing.Duration3.ToString();
-            Magnitude3.Text = ing.Magnitude3.ToString();
-            Duration4.Text = ing.Duration4.ToString();
-            Magnitude4.Text = ing.Magnitude4.ToString();
+            potion = pot;
+            FormID.Text = pot.FormID.ToString("X");
+            EditorID.Text = pot.EditorID;
+            PluginName.Text = pot.PluginName;
+            Name.Text = pot.name;
+            Weight.Text = pot.Weight.ToString();
+            Value.Text = pot.value.ToString();
+            Duration1.Text = pot.Duration1.ToString();
+            Magnitude1.Text = pot.Magnitude1.ToString();
+            Duration2.Text = pot.Duration2.ToString();
+            Magnitude2.Text = pot.Magnitude2.ToString();
+            Duration3.Text = pot.Duration3.ToString();
+            Magnitude3.Text = pot.Magnitude3.ToString();
+            Duration4.Text = pot.Duration4.ToString();
+            Magnitude4.Text = pot.Magnitude4.ToString();
+            Duration5.Text = pot.Duration5.ToString();
+            Magnitude5.Text = pot.Magnitude5.ToString();
+            Duration6.Text = pot.Duration6.ToString();
+            Magnitude6.Text = pot.Magnitude6.ToString();
 
             HashSet<string> effects = new HashSet<string>();
 
@@ -70,11 +71,15 @@ namespace GraphicRuleCreator
                 Effect2.Items.Add(effList[i]);
                 Effect3.Items.Add(effList[i]);
                 Effect4.Items.Add(effList[i]);
+                Effect5.Items.Add(effList[i]);
+                Effect6.Items.Add(effList[i]);
             }
-            Effect1.SelectedIndex = GetIndex(ing.Effect1);
-            Effect2.SelectedIndex = GetIndex(ing.Effect2);
-            Effect3.SelectedIndex = GetIndex(ing.Effect3);
-            Effect4.SelectedIndex = GetIndex(ing.Effect4);
+            Effect1.SelectedIndex = GetIndex(pot.Effect1);
+            Effect2.SelectedIndex = GetIndex(pot.Effect2);
+            Effect3.SelectedIndex = GetIndex(pot.Effect3);
+            Effect4.SelectedIndex = GetIndex(pot.Effect4);
+            Effect5.SelectedIndex = GetIndex(pot.Effect5);
+            Effect6.SelectedIndex = GetIndex(pot.Effect6);
 
 
             Name.Focus();
@@ -91,19 +96,24 @@ namespace GraphicRuleCreator
             int dur2 = 0;
             int dur3 = 0;
             int dur4 = 0;
+            int dur5 = 0;
+            int dur6 = 0;
             double mag1 = 0;
             double mag2 = 0;
             double mag3 = 0;
             double mag4 = 0;
+            double mag5 = 0;
+            double mag6 = 0;
             try
             {
                 formid = UInt32.Parse(FormID.Text, System.Globalization.NumberStyles.HexNumber);
-            } catch { error.Text = "FormID: Wrong Format"; return; }
+            }
+            catch { error.Text = "FormID: Wrong Format"; return; }
             if (formid == 0)
             {
                 error.Text = "FormID: Wrong format or zero";
                 return;
-            }    
+            }
             if (Name.Text == "")
             {
                 error.Text = "Name: cannot be empty";
@@ -141,6 +151,16 @@ namespace GraphicRuleCreator
             catch { error.Text = "Duration4: Wrong Format"; return; }
             try
             {
+                dur5 = Int32.Parse(Duration5.Text);
+            }
+            catch { error.Text = "Duration5: Wrong Format"; return; }
+            try
+            {
+                dur6 = Int32.Parse(Duration6.Text);
+            }
+            catch { error.Text = "Duration6: Wrong Format"; return; }
+            try
+            {
                 mag1 = Math.Round(Double.Parse(Magnitude1.Text, System.Globalization.NumberStyles.Float), 2);
             }
             catch { error.Text = "Magnitude1: Wrong Format"; return; }
@@ -159,28 +179,44 @@ namespace GraphicRuleCreator
                 mag4 = Math.Round(Double.Parse(Magnitude4.Text, System.Globalization.NumberStyles.Float), 2);
             }
             catch { error.Text = "Magnitude4: Wrong Format"; return; }
+            try
+            {
+                mag5 = Math.Round(Double.Parse(Magnitude5.Text, System.Globalization.NumberStyles.Float), 2);
+            }
+            catch { error.Text = "Magnitude5: Wrong Format"; return; }
+            try
+            {
+                mag6 = Math.Round(Double.Parse(Magnitude6.Text, System.Globalization.NumberStyles.Float), 2);
+            }
+            catch { error.Text = "Magnitude6: Wrong Format"; return; }
 
 
-            ingredient.FormID = formid;
-            ingredient.EditorID = EditorID.Text;
-            ingredient.PluginName = PluginName.Text;
-            ingredient.name = Name.Text;
-            ingredient.value = val;
-            ingredient.Weight = weight;
-            ingredient.Effect1 = Effect1.SelectedItem as string;
-            ingredient.Effect2 = Effect2.SelectedItem as string;
-            ingredient.Effect3 = Effect3.SelectedItem as string;
-            ingredient.Effect4 = Effect4.SelectedItem as string;
-            ingredient.Duration1 = dur1;
-            ingredient.Duration2 = dur2;
-            ingredient.Duration3 = dur3;
-            ingredient.Duration4 = dur4;
-            ingredient.Magnitude1 = mag1;
-            ingredient.Magnitude2 = mag2;
-            ingredient.Magnitude3 = mag3;
-            ingredient.Magnitude4 = mag4;
+            potion.FormID = formid;
+            potion.EditorID = EditorID.Text;
+            potion.PluginName = PluginName.Text;
+            potion.name = Name.Text;
+            potion.value = val;
+            potion.Weight = weight;
+            potion.Effect1 = Effect1.SelectedItem as string;
+            potion.Effect2 = Effect2.SelectedItem as string;
+            potion.Effect3 = Effect3.SelectedItem as string;
+            potion.Effect4 = Effect4.SelectedItem as string;
+            potion.Effect5 = Effect5.SelectedItem as string;
+            potion.Effect6 = Effect6.SelectedItem as string;
+            potion.Duration1 = dur1;
+            potion.Duration2 = dur2;
+            potion.Duration3 = dur3;
+            potion.Duration4 = dur4;
+            potion.Duration5 = dur5;
+            potion.Duration6 = dur6;
+            potion.Magnitude1 = mag1;
+            potion.Magnitude2 = mag2;
+            potion.Magnitude3 = mag3;
+            potion.Magnitude4 = mag4;
+            potion.Magnitude5 = mag5;
+            potion.Magnitude6 = mag6;
 
-            ingredient.modified = true;
+            potion.modified = true;
 
             Utility.CalcAllReferences();
 
@@ -337,6 +373,58 @@ namespace GraphicRuleCreator
         }
 
         private void Magnitude4_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Tab || e.Key == Key.Enter)
+            {
+                Effect5.Focus();
+            }
+        }
+
+        private void Effect5_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Tab || e.Key == Key.Enter)
+            {
+                Duration5.Focus();
+                Duration5.SelectAll();
+            }
+        }
+
+        private void Duration5_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Tab || e.Key == Key.Enter)
+            {
+                Magnitude5.Focus();
+                Magnitude5.SelectAll();
+            }
+        }
+
+        private void Magnitude5_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Tab || e.Key == Key.Enter)
+            {
+                Effect6.Focus();
+            }
+        }
+
+        private void Effect6_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Tab || e.Key == Key.Enter)
+            {
+                Duration6.Focus();
+                Duration6.SelectAll();
+            }
+        }
+
+        private void Duration6_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Tab || e.Key == Key.Enter)
+            {
+                Magnitude6.Focus();
+                Magnitude6.SelectAll();
+            }
+        }
+
+        private void Magnitude6_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Tab || e.Key == Key.Enter)
             {
