@@ -12,7 +12,7 @@
                 <GridView>
                     <GridViewColumn Width="150" DisplayMemberBinding="{Binding name}" >
                         <GridViewColumn.Header>
-                            <GridViewColumnHeader Tag="Name" Click="GridViewColumnHeader_Click">Name</GridViewColumnHeader>
+                            <GridViewColumnHeader Tag="name" Click="GridViewColumnHeader_Click">Name</GridViewColumnHeader>
                         </GridViewColumn.Header>
                     </GridViewColumn>
                     <GridViewColumn Width="100" DisplayMemberBinding="{Binding EditorID}" >
@@ -32,7 +32,7 @@
                     </GridViewColumn>
                     <GridViewColumn Width="120" DisplayMemberBinding="{Binding ActorValueName}" >
                         <GridViewColumn.Header>
-                            <GridViewColumnHeader Tag="ActorValue" Click="GridViewColumnHeader_Click">ActorValue</GridViewColumnHeader>
+                            <GridViewColumnHeader Tag="ActorValueName" Click="GridViewColumnHeader_Click">ActorValue</GridViewColumnHeader>
                         </GridViewColumn.Header>
                     </GridViewColumn>
                     <GridViewColumn Width="150" DisplayMemberBinding="{Binding AlchemyEffectName}" >
@@ -42,12 +42,12 @@
                     </GridViewColumn>
                     <GridViewColumn Width="70" DisplayMemberBinding="{Binding detrimental}" >
                         <GridViewColumn.Header>
-                            <GridViewColumnHeader Tag="Detrimental" Click="GridViewColumnHeader_Click">Detrimental</GridViewColumnHeader>
+                            <GridViewColumnHeader Tag="detrimental" Click="GridViewColumnHeader_Click">Detrimental</GridViewColumnHeader>
                         </GridViewColumn.Header>
                     </GridViewColumn>
                     <GridViewColumn Width="70" DisplayMemberBinding="{Binding References.Count}" >
                         <GridViewColumn.Header>
-                            <GridViewColumnHeader Tag="Usages" Click="GridViewColumnHeader_Click">Usages</GridViewColumnHeader>
+                            <GridViewColumnHeader Tag="References.Count" Click="GridViewColumnHeader_Click">Usages</GridViewColumnHeader>
                         </GridViewColumn.Header>
                     </GridViewColumn>
                 </GridView>

@@ -15,6 +15,7 @@ startenvlaptop.bat
 GraphicRuleCreator/.vs
 GraphicRuleCreator/bin
 GraphicRuleCreator/obj
+GraphicRuleCreator/Properties/PublishProfiles
 
 # Prerequisites
 *.d
