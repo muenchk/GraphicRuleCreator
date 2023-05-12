@@ -87,7 +87,14 @@ namespace GraphicRuleCreator
                                         eff.Overwrite = false;
                                     index++;
                                     if (eff.Overwrite == true)
-                                        eff.AlchemyEffect = (AlchemyEffect)UInt64.Parse(splits[index], System.Globalization.NumberStyles.HexNumber);
+                                    {
+                                        if (splits[index].Length > 16)
+                                        {
+                                            eff.AlchemyEffect = new Alchem((AlchemyBaseEffectFirst)UInt64.Parse(splits[index].Substring(0, splits[index].Length - 16), System.Globalization.NumberStyles.HexNumber), AlchemyBaseEffectSecond.kNone);
+                                        }
+                                        else
+                                            eff.AlchemyEffect = new Alchem(AlchemyBaseEffectFirst.kNone, (AlchemyBaseEffectSecond)UInt64.Parse(splits[index], System.Globalization.NumberStyles.HexNumber));
+                                    }
                                     else
                                         eff.AlchemyEffect = Utility.ConvertToAlchemyEffect(eff.ActorValue);
                                     eff.AlchemyEffectName = Utility.ToString(eff.AlchemyEffect);
@@ -438,7 +445,7 @@ namespace GraphicRuleCreator
             else
                 rule += "|0";
             // AlchemyEffect (Overwrite)
-            rule += "|" + ((UInt64)eff.AlchemyEffect).ToString("X");
+            rule += "|" + eff.AlchemyEffect.ToString();
             // detrimental
             if (eff.detrimental == true)
                 rule += "|1";

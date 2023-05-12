@@ -19,7 +19,7 @@ namespace GraphicRuleCreator
         public ActorValue ActorValue { get; set; } = ActorValue.kNone;
 
         public string ActorValueName { get; set; } = "";
-        public AlchemyEffect AlchemyEffect { get; set; } = AlchemyEffect.kNone;
+        public Alchem AlchemyEffect { get; set; } = new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kNone);
         public string AlchemyEffectName { get; set; } = "";
         public bool Overwrite { get; set; } = false;
         public bool detrimental { get; set; } = false;

@@ -25,10 +25,16 @@ namespace GraphicRuleCreator
         {
             InitializeComponent();
 
-            alchemyOverwrite.Items.Add(Utility.ToString((AlchemyEffect)(0)));
+            alchemyOverwrite.Items.Add(Utility.ToString(new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kNone)));
+            // first effect range
             for (int i = 0; i <= 63; i++)
             {
-                alchemyOverwrite.Items.Add(Utility.ToString((AlchemyEffect)((UInt64)1 << i)));
+                alchemyOverwrite.Items.Add(Utility.ToString(new Alchem(AlchemyBaseEffectFirst.kNone, (AlchemyBaseEffectSecond)((UInt64)1 << i))));
+            }
+            // second effect range
+            for (int i = 0; i <= 63; i++)
+            {
+                alchemyOverwrite.Items.Add(Utility.ToString(new Alchem((AlchemyBaseEffectFirst)((UInt64)1 << i), AlchemyBaseEffectSecond.kNone)));
             }
             if (eff.Overwrite == true)
             {
@@ -97,9 +103,14 @@ namespace GraphicRuleCreator
             if (overwrite.IsChecked == true)
             {
                 if (alchemyOverwrite.SelectedIndex > 0)
-                    effect.AlchemyEffect = (AlchemyEffect)((UInt64)1 << (alchemyOverwrite.SelectedIndex - 1));
+                {
+                    if (alchemyOverwrite.SelectedIndex > 64)
+                        effect.AlchemyEffect = new Alchem((AlchemyBaseEffectFirst)((UInt64)1 << (alchemyOverwrite.SelectedIndex - 1)), AlchemyBaseEffectSecond.kNone);
+                    else
+                        effect.AlchemyEffect = new Alchem(AlchemyBaseEffectFirst.kNone, (AlchemyBaseEffectSecond)((UInt64)1 << (alchemyOverwrite.SelectedIndex - 1)));
+                }
                 else
-                    effect.AlchemyEffect = AlchemyEffect.kNone;
+                    effect.AlchemyEffect = new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kNone);
                 effect.AlchemyEffectName = Utility.ToString(effect.AlchemyEffect);
                 effect.Overwrite = true;
             }

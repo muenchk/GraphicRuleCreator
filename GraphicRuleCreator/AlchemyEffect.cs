@@ -1,9 +1,58 @@
 ﻿
 using GraphicRuleCreator;
 using System;
+using System.Windows;
 using System.Windows.Media.Effects;
 
-public enum AlchemyEffect : UInt64
+public class Alchem
+{
+    public bool firstenum = false;
+
+    public AlchemyBaseEffectFirst _first;
+    public AlchemyBaseEffectSecond _second;
+
+    public Alchem(AlchemyBaseEffectFirst first, AlchemyBaseEffectSecond second)
+    {
+        _first = first;
+        _second = second;
+        if (_first == AlchemyBaseEffectFirst.kNone)
+        {
+            firstenum = false;
+        }
+        else if (_second == AlchemyBaseEffectSecond.kNone)
+        {
+            firstenum = true;
+        }
+        else
+        {
+            _first = AlchemyBaseEffectFirst.kNone;
+            firstenum = false;
+        }
+    }
+
+    public static bool operator==(Alchem lhs, Alchem rhs)
+    {
+        return lhs._first == rhs._first && lhs._second == rhs._second;
+    }
+
+    public static bool operator!=(Alchem lhs, Alchem rhs)
+    {
+        return lhs._first != rhs._first || lhs._second != rhs._second;  
+    }
+
+    public override string ToString()
+    {
+        return ((UInt64)_first).ToString("X") + ((UInt64)_second).ToString("X16");
+    }
+}
+
+
+public enum AlchemyBaseEffectFirst : UInt64
+{
+    kNone = 0,
+}
+
+public enum AlchemyBaseEffectSecond : UInt64
 {
     kNone = 0,                                      // 0
 	kHealth = 1 << 0,                               // 1
@@ -61,7 +110,7 @@ public enum AlchemyEffect : UInt64
 	kFortifyHealth = (UInt64)1 << 52,     // 10000000000000
 	kFortifyMagicka = (UInt64)1 << 53,    // 20000000000000
 	kFortifyStamina = (UInt64)1 << 54,    // 40000000000000
-	kUnused1 = (UInt64)1 << 55,           // 80000000000000
+	kShield = (UInt64)1 << 55,           // 80000000000000
 	kUnused2 = (UInt64)1 << 56,           // 100000000000000
 	kUnused3 = (UInt64)1 << 57,           // 200000000000000
 	kUnused4 = (UInt64)1 << 58,           // 300000000000000
@@ -532,459 +581,493 @@ public class Utility
         return global::ActorValue.kNone;
     }
 
-    public static AlchemyEffect ConvertToAlchemyEffect(ActorValue val)
+    public static Alchem ConvertToAlchemyEffect(ActorValue val)
     {
         switch (val)
         {
             case global::ActorValue.kHealth:
-                return (AlchemyEffect.kHealth);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kHealth);
                 break;
             case global::ActorValue.kMagicka:
-                return (AlchemyEffect.kMagicka);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kMagicka);
                 break;
             case global::ActorValue.kStamina:
-                return (AlchemyEffect.kStamina);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kStamina);
                 break;
             case global::ActorValue.kOneHanded:
             case global::ActorValue.kOneHandedModifier:
             case global::ActorValue.kOneHandedPowerModifier:
-                return (AlchemyEffect.kOneHanded);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kOneHanded);
                 break;
             case global::ActorValue.kTwoHanded:
             case global::ActorValue.kTwoHandedModifier:
             case global::ActorValue.kTwoHandedPowerModifier:
-                return (AlchemyEffect.kTwoHanded);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kTwoHanded);
                 break;
             case global::ActorValue.kArchery:
             case global::ActorValue.kMarksmanModifier:
             case global::ActorValue.kMarksmanPowerModifier:
-                return (AlchemyEffect.kArchery);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kArchery);
                 break;
             case global::ActorValue.kBlock:
             case global::ActorValue.kBlockModifier:
             case global::ActorValue.kBlockPowerModifier:
-                return (AlchemyEffect.kBlock);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kBlock);
                 break;
             case global::ActorValue.kSmithing:
             case global::ActorValue.kSmithingModifier:
             case global::ActorValue.kSmithingPowerModifier:
-                return (AlchemyEffect.kSmithing);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kSmithing);
                 break;
             case global::ActorValue.kHeavyArmor:
             case global::ActorValue.kHeavyArmorModifier:
             case global::ActorValue.kHeavyArmorPowerModifier:
-                return (AlchemyEffect.kHeavyArmor);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kHeavyArmor);
                 break;
             case global::ActorValue.kLightArmor:
             case global::ActorValue.kLightArmorModifier:
             case global::ActorValue.kLightArmorSkillAdvance:
-                return (AlchemyEffect.kLightArmor);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kLightArmor);
                 break;
             case global::ActorValue.kPickpocket:
             case global::ActorValue.kPickpocketModifier:
             case global::ActorValue.kPickpocketPowerModifier:
-                return (AlchemyEffect.kPickpocket);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kPickpocket);
                 break;
             case global::ActorValue.kLockpicking:
             case global::ActorValue.kLockpickingModifier:
             case global::ActorValue.kLockpickingPowerModifier:
-                return (AlchemyEffect.kLockpicking);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kLockpicking);
                 break;
             case global::ActorValue.kSneak:
             case global::ActorValue.kSneakingModifier:
             case global::ActorValue.kSneakingPowerModifier:
-                return (AlchemyEffect.kSneak);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kSneak);
                 break;
             case global::ActorValue.kAlchemy:
             case global::ActorValue.kAlchemyModifier:
             case global::ActorValue.kAlchemyPowerModifier:
-                return (AlchemyEffect.kAlchemy);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kAlchemy);
                 break;
             case global::ActorValue.kSpeech:
             case global::ActorValue.kSpeechcraftModifier:
             case global::ActorValue.kSpeechcraftPowerModifier:
-                return (AlchemyEffect.kSpeech);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kSpeech);
                 break;
             case global::ActorValue.kAlteration:
             case global::ActorValue.kAlterationModifier:
             case global::ActorValue.kAlterationPowerModifier:
-                return (AlchemyEffect.kAlteration);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kAlteration);
                 break;
             case global::ActorValue.kConjuration:
             case global::ActorValue.kConjurationModifier:
             case global::ActorValue.kConjurationPowerModifier:
-                return (AlchemyEffect.kConjuration);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kConjuration);
                 break;
             case global::ActorValue.kDestruction:
             case global::ActorValue.kDestructionModifier:
             case global::ActorValue.kDestructionPowerModifier:
-                return (AlchemyEffect.kDestruction);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kDestruction);
                 break;
             case global::ActorValue.kIllusion:
             case global::ActorValue.kIllusionModifier:
             case global::ActorValue.kIllusionPowerModifier:
-                return (AlchemyEffect.kIllusion);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kIllusion);
                 break;
             case global::ActorValue.kRestoration:
             case global::ActorValue.kRestorationModifier:
             case global::ActorValue.kRestorationPowerModifier:
-                return (AlchemyEffect.kRestoration);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kRestoration);
                 break;
             case global::ActorValue.kEnchanting:
             case global::ActorValue.kEnchantingModifier:
             case global::ActorValue.kEnchantingPowerModifier:
-                return (AlchemyEffect.kEnchanting);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kEnchanting);
                 break;
             case global::ActorValue.kHealRate:
-                return (AlchemyEffect.kHealRate);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kHealRate);
                 break;
             case global::ActorValue.kMagickaRate:
-                return (AlchemyEffect.kMagickaRate);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kMagickaRate);
                 break;
             case global::ActorValue.kStaminaRate:
-                return (AlchemyEffect.kStaminaRate);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kStaminaRate);
                 break;
             case global::ActorValue.kSpeedMult:
-                return (AlchemyEffect.kSpeedMult);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kSpeedMult);
                 break;
             //case global::ActorValue.kInventoryWeight:
             //	break;
             case global::ActorValue.kCarryWeight:
-                return (AlchemyEffect.kCarryWeight);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kCarryWeight);
                 break;
             case global::ActorValue.kCriticalChance:
-                return (AlchemyEffect.kCriticalChance);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kCriticalChance);
                 break;
             case global::ActorValue.kMeleeDamage:
-                return (AlchemyEffect.kMeleeDamage);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kMeleeDamage);
                 break;
             case global::ActorValue.kUnarmedDamage:
-                return (AlchemyEffect.kUnarmedDamage);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kUnarmedDamage);
                 break;
             case global::ActorValue.kDamageResist:
-                return (AlchemyEffect.kDamageResist);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kDamageResist);
                 break;
             case global::ActorValue.kPoisonResist:
-                return (AlchemyEffect.kPoisonResist);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kPoisonResist);
                 break;
             case global::ActorValue.kResistFire:
-                return (AlchemyEffect.kResistFire);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kResistFire);
                 break;
             case global::ActorValue.kResistShock:
-                return (AlchemyEffect.kResistShock);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kResistShock);
                 break;
             case global::ActorValue.kResistFrost:
-                return (AlchemyEffect.kResistFrost);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kResistFrost);
                 break;
             case global::ActorValue.kResistMagic:
-                return (AlchemyEffect.kResistMagic);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kResistMagic);
                 break;
             case global::ActorValue.kResistDisease:
-                return (AlchemyEffect.kResistDisease);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kResistDisease);
                 break;
             case global::ActorValue.kParalysis:
-                return (AlchemyEffect.kParalysis);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kParalysis);
                 break;
             case global::ActorValue.kInvisibility:
-                return (AlchemyEffect.kInvisibility);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kInvisibility);
                 break;
             case global::ActorValue.kWeaponSpeedMult:
             case global::ActorValue.kLeftWeaponSpeedMultiply:
-                return (AlchemyEffect.kWeaponSpeedMult);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kWeaponSpeedMult);
                 break;
             case global::ActorValue.kBowSpeedBonus:
-                return (AlchemyEffect.kBowSpeed);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kBowSpeed);
                 break;
             case global::ActorValue.kAttackDamageMult:
-                return (AlchemyEffect.kAttackDamageMult);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kAttackDamageMult);
                 break;
             case global::ActorValue.kHealRateMult:
-                return (AlchemyEffect.kHealRateMult);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kHealRateMult);
                 break;
             case global::ActorValue.kMagickaRateMult:
-                return (AlchemyEffect.kMagickaRateMult);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kMagickaRateMult);
                 break;
             case global::ActorValue.kStaminaRateMult:
-                return (AlchemyEffect.kStaminaRateMult);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kStaminaRateMult);
                 break;
             case global::ActorValue.kAggression:
-                return (AlchemyEffect.kFrenzy);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kFrenzy);
                 break;
             case global::ActorValue.kConfidence:
-                return (AlchemyEffect.kFear);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kFear);
                 break;
             case global::ActorValue.kReflectDamage:
-                return (AlchemyEffect.kReflectDamage);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kReflectDamage);
                 break;
             case global::ActorValue.kWaterBreathing:
-                return (AlchemyEffect.kWaterbreathing);
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kWaterbreathing);
                 break;
             default:
-                return AlchemyEffect.kNone;
+                return new Alchem(AlchemyBaseEffectFirst.kNone, AlchemyBaseEffectSecond.kNone);
                 break;
         }
     }
 
 
-    public static string ToString(AlchemyEffect ae)
+    public static string ToString(Alchem ae)
 	{
-		switch (ae)
-		{
-			case AlchemyEffect.kAlteration:
-				return "Alteration";
-			case AlchemyEffect.kAnyFood:
-				return "AnyFood";
-			case AlchemyEffect.kAnyFortify:
-				return "AnyFortify";
-			case AlchemyEffect.kAnyPoison:
-				return "AnyPoison";
-			case AlchemyEffect.kAnyPotion:
-				return "AnyPotion";
-			case AlchemyEffect.kArchery:
-				return "Archery";
-			case AlchemyEffect.kAttackDamageMult:
-				return "AttackDamageMult";
-			case AlchemyEffect.kBlock:
-				return "Block";
-			case AlchemyEffect.kBlood:
-				return "Blood";
-			case AlchemyEffect.kBowSpeed:
-				return "BowSpeed";
-			case AlchemyEffect.kConjuration:
-				return "Conjuration";
-			case AlchemyEffect.kCriticalChance:
-				return "CriticalChance";
-			case AlchemyEffect.kDamageResist:
-				return "DamageResist";
-			case AlchemyEffect.kDestruction:
-				return "Destruction";
-			case AlchemyEffect.kFear:
-				return "Fear";
-			case AlchemyEffect.kFrenzy:
-				return "Frenzy";
-			case AlchemyEffect.kHealRate:
-				return "HealRate";
-			case AlchemyEffect.kHealRateMult:
-				return "HealRateMult";
-			case AlchemyEffect.kHealth:
-				return "Health";
-			case AlchemyEffect.kHeavyArmor:
-				return "HeavyArmor";
-			case AlchemyEffect.kIllusion:
-				return "Illusion";
-			case AlchemyEffect.kInvisibility:
-				return "Invisibility";
-			case AlchemyEffect.kLightArmor:
-				return "LightArmor";
-			case AlchemyEffect.kLockpicking:
-				return "Lockpicking";
-			case AlchemyEffect.kMagicka:
-				return "Magicka";
-			case AlchemyEffect.kMagickaRate:
-				return "MagickaRate";
-			case AlchemyEffect.kMagickaRateMult:
-				return "MagickaRateMult";
-			case AlchemyEffect.kMeleeDamage:
-				return "MeleeDamage";
-			case AlchemyEffect.kNone:
-				return "None";
-			case AlchemyEffect.kOneHanded:
-				return "OneHanded";
-			case AlchemyEffect.kParalysis:
-				return "Paralysis";
-			case AlchemyEffect.kPickpocket:
-				return "Pickpocket";
-			case AlchemyEffect.kPoisonResist:
-				return "PoisonResist";
-			case AlchemyEffect.kReflectDamage:
-				return "ReflectDamage";
-			case AlchemyEffect.kResistDisease:
-				return "ResistDisease";
-			case AlchemyEffect.kResistFire:
-				return "ResistFire";
-			case AlchemyEffect.kResistFrost:
-				return "ResistFrost";
-			case AlchemyEffect.kResistMagic:
-				return "ResistMagic";
-			case AlchemyEffect.kResistShock:
-				return "ResistShock";
-			case AlchemyEffect.kRestoration:
-				return "Restoration";
-			case AlchemyEffect.kSneak:
-				return "Sneak";
-			case AlchemyEffect.kSpeedMult:
-				return "SpeedMult";
-			case AlchemyEffect.kStamina:
-				return "Stamina";
-			case AlchemyEffect.kStaminaRate:
-				return "StaminaRate";
-			case AlchemyEffect.kStaminaRateMult:
-				return "StaminaRateMult";
-			case AlchemyEffect.kTwoHanded:
-				return "TwoHanded";
-			case AlchemyEffect.kUnarmedDamage:
-				return "UnarmedDamage";
-			case AlchemyEffect.kWeaponSpeedMult:
-				return "WeapenSpeedMult";
-			case AlchemyEffect.kCureDisease:
-				return "CureDisease";
-			case AlchemyEffect.kCurePoison:
-				return "CurePoison";
-			case AlchemyEffect.kEnchanting:
-				return "Enchanting";
-			case AlchemyEffect.kWaterbreathing:
-				return "Waterbreathing";
-			case AlchemyEffect.kSmithing:
-				return "Smithing";
-			case AlchemyEffect.kSpeech:
-				return "Speech";
-			case AlchemyEffect.kCarryWeight:
-				return "CarryWeight";
-			case AlchemyEffect.kAlchemy:
-				return "Alchemy";
-			case AlchemyEffect.kPersuasion:
-				return "Persuasion";
-			case AlchemyEffect.kFortifyHealth:
-				return "FortifyHealth";
-			case AlchemyEffect.kFortifyMagicka:
-				return "FortifyMagicka";
-			case AlchemyEffect.kFortifyStamina:
-				return "FortifyStamina";
-			case AlchemyEffect.kCustom:
-				return "Custom";
-			default:
-				return "Unknown";
-		}
+        if (ae.firstenum)
+        {
+            switch (ae._first)
+            {
+                case AlchemyBaseEffectFirst.kNone:
+                    return "None";
+                default:
+                    return "Unknown";
+            }
+        }
+        else
+        {
+            switch (ae._second)
+            {
+                case AlchemyBaseEffectSecond.kAlteration:
+                    return "Alteration";
+                case AlchemyBaseEffectSecond.kAnyFood:
+                    return "AnyFood";
+                case AlchemyBaseEffectSecond.kAnyFortify:
+                    return "AnyFortify";
+                case AlchemyBaseEffectSecond.kAnyPoison:
+                    return "AnyPoison";
+                case AlchemyBaseEffectSecond.kAnyPotion:
+                    return "AnyPotion";
+                case AlchemyBaseEffectSecond.kArchery:
+                    return "Archery";
+                case AlchemyBaseEffectSecond.kAttackDamageMult:
+                    return "AttackDamageMult";
+                case AlchemyBaseEffectSecond.kBlock:
+                    return "Block";
+                case AlchemyBaseEffectSecond.kBlood:
+                    return "Blood";
+                case AlchemyBaseEffectSecond.kBowSpeed:
+                    return "BowSpeed";
+                case AlchemyBaseEffectSecond.kConjuration:
+                    return "Conjuration";
+                case AlchemyBaseEffectSecond.kCriticalChance:
+                    return "CriticalChance";
+                case AlchemyBaseEffectSecond.kDamageResist:
+                    return "DamageResist";
+                case AlchemyBaseEffectSecond.kDestruction:
+                    return "Destruction";
+                case AlchemyBaseEffectSecond.kFear:
+                    return "Fear";
+                case AlchemyBaseEffectSecond.kFrenzy:
+                    return "Frenzy";
+                case AlchemyBaseEffectSecond.kHealRate:
+                    return "HealRate";
+                case AlchemyBaseEffectSecond.kHealRateMult:
+                    return "HealRateMult";
+                case AlchemyBaseEffectSecond.kHealth:
+                    return "Health";
+                case AlchemyBaseEffectSecond.kHeavyArmor:
+                    return "HeavyArmor";
+                case AlchemyBaseEffectSecond.kIllusion:
+                    return "Illusion";
+                case AlchemyBaseEffectSecond.kInvisibility:
+                    return "Invisibility";
+                case AlchemyBaseEffectSecond.kLightArmor:
+                    return "LightArmor";
+                case AlchemyBaseEffectSecond.kLockpicking:
+                    return "Lockpicking";
+                case AlchemyBaseEffectSecond.kMagicka:
+                    return "Magicka";
+                case AlchemyBaseEffectSecond.kMagickaRate:
+                    return "MagickaRate";
+                case AlchemyBaseEffectSecond.kMagickaRateMult:
+                    return "MagickaRateMult";
+                case AlchemyBaseEffectSecond.kMeleeDamage:
+                    return "MeleeDamage";
+                case AlchemyBaseEffectSecond.kNone:
+                    return "None";
+                case AlchemyBaseEffectSecond.kOneHanded:
+                    return "OneHanded";
+                case AlchemyBaseEffectSecond.kParalysis:
+                    return "Paralysis";
+                case AlchemyBaseEffectSecond.kPickpocket:
+                    return "Pickpocket";
+                case AlchemyBaseEffectSecond.kPoisonResist:
+                    return "PoisonResist";
+                case AlchemyBaseEffectSecond.kReflectDamage:
+                    return "ReflectDamage";
+                case AlchemyBaseEffectSecond.kResistDisease:
+                    return "ResistDisease";
+                case AlchemyBaseEffectSecond.kResistFire:
+                    return "ResistFire";
+                case AlchemyBaseEffectSecond.kResistFrost:
+                    return "ResistFrost";
+                case AlchemyBaseEffectSecond.kResistMagic:
+                    return "ResistMagic";
+                case AlchemyBaseEffectSecond.kResistShock:
+                    return "ResistShock";
+                case AlchemyBaseEffectSecond.kRestoration:
+                    return "Restoration";
+                case AlchemyBaseEffectSecond.kSneak:
+                    return "Sneak";
+                case AlchemyBaseEffectSecond.kSpeedMult:
+                    return "SpeedMult";
+                case AlchemyBaseEffectSecond.kStamina:
+                    return "Stamina";
+                case AlchemyBaseEffectSecond.kStaminaRate:
+                    return "StaminaRate";
+                case AlchemyBaseEffectSecond.kStaminaRateMult:
+                    return "StaminaRateMult";
+                case AlchemyBaseEffectSecond.kTwoHanded:
+                    return "TwoHanded";
+                case AlchemyBaseEffectSecond.kUnarmedDamage:
+                    return "UnarmedDamage";
+                case AlchemyBaseEffectSecond.kWeaponSpeedMult:
+                    return "WeapenSpeedMult";
+                case AlchemyBaseEffectSecond.kCureDisease:
+                    return "CureDisease";
+                case AlchemyBaseEffectSecond.kCurePoison:
+                    return "CurePoison";
+                case AlchemyBaseEffectSecond.kEnchanting:
+                    return "Enchanting";
+                case AlchemyBaseEffectSecond.kWaterbreathing:
+                    return "Waterbreathing";
+                case AlchemyBaseEffectSecond.kSmithing:
+                    return "Smithing";
+                case AlchemyBaseEffectSecond.kSpeech:
+                    return "Speech";
+                case AlchemyBaseEffectSecond.kCarryWeight:
+                    return "CarryWeight";
+                case AlchemyBaseEffectSecond.kAlchemy:
+                    return "Alchemy";
+                case AlchemyBaseEffectSecond.kPersuasion:
+                    return "Persuasion";
+                case AlchemyBaseEffectSecond.kFortifyHealth:
+                    return "FortifyHealth";
+                case AlchemyBaseEffectSecond.kFortifyMagicka:
+                    return "FortifyMagicka";
+                case AlchemyBaseEffectSecond.kFortifyStamina:
+                    return "FortifyStamina";
+                case AlchemyBaseEffectSecond.kShield:
+                    return "Shield";
+                case AlchemyBaseEffectSecond.kCustom:
+                    return "Custom";
+                default:
+                    return "Unknown";
+            }
+        }
 	}
 
-    public static string ToString(UInt64 ae)
+    /*public static string ToString(Alchem alch)
     {
         string ret = "|";
-        if (((ae & (UInt64)(AlchemyEffect.kAlteration)) > 0))
-            ret += "Alteration|";
-        if ((ae & (UInt64)(AlchemyEffect.kArchery)) > 0)
-            ret += "Archery|";
-        if ((ae & (UInt64)(AlchemyEffect.kAttackDamageMult)) > 0)
-            ret += "AttackDamageMult|";
-        if ((ae & (UInt64)(AlchemyEffect.kBlock)) > 0)
-            ret += "Block|";
-        if ((ae & (UInt64)(AlchemyEffect.kBlood)) > 0)
-            ret += "Blood|";
-        if ((ae & (UInt64)(AlchemyEffect.kBowSpeed)) > 0)
-            ret += "BowSpeed|";
-        if ((ae & (UInt64)(AlchemyEffect.kConjuration)) > 0)
-            ret += "Conjuration|";
-        if ((ae & (UInt64)(AlchemyEffect.kCriticalChance)) > 0)
-            ret += "CriticalChance|";
-        if ((ae & (UInt64)(AlchemyEffect.kDamageResist)) > 0)
-            ret += "DamageResist|";
-        if ((ae & (UInt64)(AlchemyEffect.kDestruction)) > 0)
-            ret += "Destruction|";
-        if ((ae & (UInt64)(AlchemyEffect.kFear)) > 0)
-            ret += "Fear|";
-        if ((ae & (UInt64)(AlchemyEffect.kFrenzy)) > 0)
-            ret += "Frenzy|";
-        if ((ae & (UInt64)(AlchemyEffect.kHealRate)) > 0)
-            ret += "HealRate|";
-        if ((ae & (UInt64)(AlchemyEffect.kHealRateMult)) > 0)
-            ret += "HealRateMult|";
-        if ((ae & (UInt64)(AlchemyEffect.kHealth)) > 0)
-            ret += "Health|";
-        if ((ae & (UInt64)(AlchemyEffect.kHeavyArmor)) > 0)
-            ret += "HeavyArmor|";
-        if ((ae & (UInt64)(AlchemyEffect.kIllusion)) > 0)
-            ret += "Illusion|";
-        if ((ae & (UInt64)(AlchemyEffect.kInvisibility)) > 0)
-            ret += "Invisibility|";
-        if ((ae & (UInt64)(AlchemyEffect.kLightArmor)) > 0)
-            ret += "LightArmor|";
-        if ((ae & (UInt64)(AlchemyEffect.kLockpicking)) > 0)
-            ret += "Lockpicking|";
-        if ((ae & (UInt64)(AlchemyEffect.kMagicka)) > 0)
-            ret += "Magicka|";
-        if ((ae & (UInt64)(AlchemyEffect.kMagickaRate)) > 0)
-            ret += "MagickaRate|";
-        if ((ae & (UInt64)(AlchemyEffect.kMagickaRateMult)) > 0)
-            ret += "MagickaRateMult|";
-        if ((ae & (UInt64)(AlchemyEffect.kMeleeDamage)) > 0)
-            ret += "MeleeDamage|";
-        if ((ae & (UInt64)(AlchemyEffect.kNone)) > 0)
-            ret += "None|";
-        if ((ae & (UInt64)(AlchemyEffect.kOneHanded)) > 0)
-            ret += "OneHanded|";
-        if ((ae & (UInt64)(AlchemyEffect.kParalysis)) > 0)
-            ret += "Paralysis|";
-        if ((ae & (UInt64)(AlchemyEffect.kPickpocket)) > 0)
-            ret += "Pickpocket|";
-        if ((ae & (UInt64)(AlchemyEffect.kPoisonResist)) > 0)
-            ret += "PoisonResist|";
-        if ((ae & (UInt64)(AlchemyEffect.kReflectDamage)) > 0)
-            ret += "ReflectDamage|";
-        if ((ae & (UInt64)(AlchemyEffect.kResistDisease)) > 0)
-            ret += "ResistDisease|";
-        if ((ae & (UInt64)(AlchemyEffect.kResistFire)) > 0)
-            ret += "ResistFire|";
-        if ((ae & (UInt64)(AlchemyEffect.kResistFrost)) > 0)
-            ret += "ResistFrost|";
-        if ((ae & (UInt64)(AlchemyEffect.kResistMagic)) > 0)
-            ret += "ResistMagic|";
-        if ((ae & (UInt64)(AlchemyEffect.kResistShock)) > 0)
-            ret += "ResistShock|";
-        if ((ae & (UInt64)(AlchemyEffect.kRestoration)) > 0)
-            ret += "Restoration|";
-        if ((ae & (UInt64)(AlchemyEffect.kSneak)) > 0)
-            ret += "Sneak|";
-        if ((ae & (UInt64)(AlchemyEffect.kSpeedMult)) > 0)
-            ret += "SpeedMult|";
-        if ((ae & (UInt64)(AlchemyEffect.kStamina)) > 0)
-            ret += "Stamina|";
-        if ((ae & (UInt64)(AlchemyEffect.kStaminaRate)) > 0)
-            ret += "StaminaRate|";
-        if ((ae & (UInt64)(AlchemyEffect.kStaminaRateMult)) > 0)
-            ret += "StaminaRateMult|";
-        if ((ae & (UInt64)(AlchemyEffect.kTwoHanded)) > 0)
-            ret += "TwoHanded|";
-        if ((ae & (UInt64)(AlchemyEffect.kUnarmedDamage)) > 0)
-            ret += "UnarmedDamage|";
-        if ((ae & (UInt64)(AlchemyEffect.kWeaponSpeedMult)) > 0)
-            ret += "WeapenSpeedMult|";
-        if ((ae & (UInt64)(AlchemyEffect.kCureDisease)) > 0)
-            ret += "CureDisease|";
-        if ((ae & (UInt64)(AlchemyEffect.kCurePoison)) > 0)
-            ret += "CurePoison|";
-        if ((ae & (UInt64)(AlchemyEffect.kEnchanting)) > 0)
-            ret += "Enchanting|";
-        if ((ae & (UInt64)(AlchemyEffect.kWaterbreathing)) > 0)
-            ret += "Waterbreathing|";
-        if ((ae & (UInt64)(AlchemyEffect.kSmithing)) > 0)
-            ret += "Smithing|";
-        if ((ae & (UInt64)(AlchemyEffect.kSpeech)) > 0)
-            ret += "Speech|";
-        if ((ae & (UInt64)(AlchemyEffect.kCarryWeight)) > 0)
-            ret += "CarryWeight|";
-        if ((ae & (UInt64)(AlchemyEffect.kAlchemy)) > 0)
-            ret += "Alchemy|";
-        if ((ae & (UInt64)(AlchemyEffect.kPersuasion)) > 0)
-            ret += "Persuasion|";
-        if ((ae & (UInt64)(AlchemyEffect.kFortifyHealth)) > 0)
-            ret += "FortifyHealth|";
-        if ((ae & (UInt64)(AlchemyEffect.kFortifyMagicka)) > 0)
-            ret += "FortifyMagicka|";
-        if ((ae & (UInt64)(AlchemyEffect.kFortifyStamina)) > 0)
-            ret += "FortifyStamina|";
-        if ((ae & (UInt64)(AlchemyEffect.kCustom)) > 0)
-            ret += "Custom|";
-
+        if (alch.firstenum)
+        {
+            UInt64 ae = (UInt64)alch._first;
+        }
+        else
+        {
+            UInt64 ae = (UInt64)alch._second;
+            if (((ae & (UInt64)(AlchemyBaseEffectSecond.kAlteration)) > 0))
+                ret += "Alteration|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kArchery)) > 0)
+                ret += "Archery|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kAttackDamageMult)) > 0)
+                ret += "AttackDamageMult|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kBlock)) > 0)
+                ret += "Block|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kBlood)) > 0)
+                ret += "Blood|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kBowSpeed)) > 0)
+                ret += "BowSpeed|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kConjuration)) > 0)
+                ret += "Conjuration|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kCriticalChance)) > 0)
+                ret += "CriticalChance|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kDamageResist)) > 0)
+                ret += "DamageResist|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kDestruction)) > 0)
+                ret += "Destruction|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kFear)) > 0)
+                ret += "Fear|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kFrenzy)) > 0)
+                ret += "Frenzy|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kHealRate)) > 0)
+                ret += "HealRate|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kHealRateMult)) > 0)
+                ret += "HealRateMult|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kHealth)) > 0)
+                ret += "Health|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kHeavyArmor)) > 0)
+                ret += "HeavyArmor|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kIllusion)) > 0)
+                ret += "Illusion|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kInvisibility)) > 0)
+                ret += "Invisibility|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kLightArmor)) > 0)
+                ret += "LightArmor|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kLockpicking)) > 0)
+                ret += "Lockpicking|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kMagicka)) > 0)
+                ret += "Magicka|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kMagickaRate)) > 0)
+                ret += "MagickaRate|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kMagickaRateMult)) > 0)
+                ret += "MagickaRateMult|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kMeleeDamage)) > 0)
+                ret += "MeleeDamage|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kNone)) > 0)
+                ret += "None|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kOneHanded)) > 0)
+                ret += "OneHanded|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kParalysis)) > 0)
+                ret += "Paralysis|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kPickpocket)) > 0)
+                ret += "Pickpocket|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kPoisonResist)) > 0)
+                ret += "PoisonResist|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kReflectDamage)) > 0)
+                ret += "ReflectDamage|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kResistDisease)) > 0)
+                ret += "ResistDisease|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kResistFire)) > 0)
+                ret += "ResistFire|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kResistFrost)) > 0)
+                ret += "ResistFrost|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kResistMagic)) > 0)
+                ret += "ResistMagic|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kResistShock)) > 0)
+                ret += "ResistShock|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kRestoration)) > 0)
+                ret += "Restoration|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kSneak)) > 0)
+                ret += "Sneak|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kSpeedMult)) > 0)
+                ret += "SpeedMult|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kStamina)) > 0)
+                ret += "Stamina|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kStaminaRate)) > 0)
+                ret += "StaminaRate|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kStaminaRateMult)) > 0)
+                ret += "StaminaRateMult|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kTwoHanded)) > 0)
+                ret += "TwoHanded|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kUnarmedDamage)) > 0)
+                ret += "UnarmedDamage|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kWeaponSpeedMult)) > 0)
+                ret += "WeapenSpeedMult|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kCureDisease)) > 0)
+                ret += "CureDisease|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kCurePoison)) > 0)
+                ret += "CurePoison|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kEnchanting)) > 0)
+                ret += "Enchanting|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kWaterbreathing)) > 0)
+                ret += "Waterbreathing|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kSmithing)) > 0)
+                ret += "Smithing|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kSpeech)) > 0)
+                ret += "Speech|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kCarryWeight)) > 0)
+                ret += "CarryWeight|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kAlchemy)) > 0)
+                ret += "Alchemy|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kPersuasion)) > 0)
+                ret += "Persuasion|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kFortifyHealth)) > 0)
+                ret += "FortifyHealth|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kFortifyMagicka)) > 0)
+                ret += "FortifyMagicka|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kFortifyStamina)) > 0)
+                ret += "FortifyStamina|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kShield)) > 0)
+                ret += "Shield|";
+            if ((ae & (UInt64)(AlchemyBaseEffectSecond.kCustom)) > 0)
+                ret += "Custom|";
+        }
         if (ret == "|")
             return "|Unknown|";
         return ret;
-    }
+    }*/
 
-    public static int ToIndex(AlchemyEffect eff)
+    public static int ToIndex(Alchem eff)
     {
-        for (int i = 0; i <= 63; i++)
+        if (eff.firstenum == false)
         {
-            if ((eff & (AlchemyEffect)((UInt64)1 << i)) > 0) return i + 1;
+            for (int i = 0; i <= 63; i++)
+            {
+                if ((eff._second & (AlchemyBaseEffectSecond)((UInt64)1 << i)) > 0) return i + 1;
+            }
+        }
+        else
+        {
+            for (int i = 0; i <= 63; i++)
+            {
+                if ((eff._first & (AlchemyBaseEffectFirst)((UInt64)1 << i)) > 0) return i + 1;
+            }
         }
         return 0;
     }
