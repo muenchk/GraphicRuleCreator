@@ -38,6 +38,7 @@ namespace GraphicRuleCreator
         public AlchemyExpansionIngEditor(Ingredient ing)
         {
             InitializeComponent();
+            Settings.Effects.Identifier ident = Settings.Effects.Identifier._None;
             ingredient = ing;
             FormID.Text = ing.FormID.ToString("X");
             EditorID.Text = ing.EditorID;
@@ -45,14 +46,46 @@ namespace GraphicRuleCreator
             Name.Text = ing.name;
             Weight.Text = ing.Weight.ToString();
             Value.Text = ing.value.ToString();
-            Duration1.Text = ing.Duration1.ToString();
-            Magnitude1.Text = ing.Magnitude1.ToString();
-            Duration2.Text = ing.Duration2.ToString();
-            Magnitude2.Text = ing.Magnitude2.ToString();
-            Duration3.Text = ing.Duration3.ToString();
-            Magnitude3.Text = ing.Magnitude3.ToString();
-            Duration4.Text = ing.Duration4.ToString();
-            Magnitude4.Text = ing.Magnitude4.ToString();
+
+            if ((ident = Settings.Effects.GetType(ing.Duration1)) != Settings.Effects.Identifier._None)
+                Duration1.Text = Settings.Effects.ToString(ident);
+            else
+                Duration1.Text = ing.Duration1.ToString();
+
+            if ((ident = Settings.Effects.GetType((int)ing.Magnitude1)) != Settings.Effects.Identifier._None)
+                Magnitude1.Text = Settings.Effects.ToString(ident);
+            else
+                Magnitude1.Text = ing.Duration1.ToString();
+
+            if ((ident = Settings.Effects.GetType(ing.Duration2)) != Settings.Effects.Identifier._None)
+                Duration2.Text = Settings.Effects.ToString(ident);
+            else
+                Duration2.Text = ing.Duration1.ToString();
+
+            if ((ident = Settings.Effects.GetType((int)ing.Magnitude2)) != Settings.Effects.Identifier._None)
+                Magnitude2.Text = Settings.Effects.ToString(ident);
+            else
+                Magnitude2.Text = ing.Duration1.ToString();
+
+            if ((ident = Settings.Effects.GetType(ing.Duration3)) != Settings.Effects.Identifier._None)
+                Duration3.Text = Settings.Effects.ToString(ident);
+            else
+                Duration3.Text = ing.Duration1.ToString();
+
+            if ((ident = Settings.Effects.GetType((int)ing.Magnitude3)) != Settings.Effects.Identifier._None)
+                Magnitude3.Text = Settings.Effects.ToString(ident);
+            else
+                Magnitude3.Text = ing.Duration1.ToString();
+
+            if ((ident = Settings.Effects.GetType(ing.Duration4)) != Settings.Effects.Identifier._None)
+                Duration4.Text = Settings.Effects.ToString(ident);
+            else
+                Duration4.Text = ing.Duration1.ToString();
+
+            if ((ident = Settings.Effects.GetType((int)ing.Magnitude4)) != Settings.Effects.Identifier._None)
+                Magnitude4.Text = Settings.Effects.ToString(ident);
+            else
+                Magnitude4.Text = ing.Duration1.ToString();
 
             HashSet<string> effects = new HashSet<string>();
 
@@ -95,6 +128,9 @@ namespace GraphicRuleCreator
             double mag2 = 0;
             double mag3 = 0;
             double mag4 = 0;
+
+            Settings.Effects.Identifier ident = Settings.Effects.Identifier._None;
+
             try
             {
                 formid = UInt32.Parse(FormID.Text, System.Globalization.NumberStyles.HexNumber);
@@ -119,52 +155,110 @@ namespace GraphicRuleCreator
                 val = Int32.Parse(Value.Text);
             }
             catch { error.Text = "Value: Wrong Format"; return; }
-            try
+            // Durations
+            if ((ident = Settings.Effects.FromString(Duration1.Text)) != Settings.Effects.Identifier._None)
             {
-                dur1 = Int32.Parse(Duration1.Text);
+                dur1 = (int)Settings.Effects.GetValue(ident);
             }
-            catch { error.Text = "Duration1: Wrong Format"; return; }
-            try
+            else
             {
-                dur2 = Int32.Parse(Duration2.Text);
+                try
+                {
+                    dur1 = Int32.Parse(Duration1.Text);
+                }
+                catch { error.Text = "Duration1: Wrong Format"; return; }
             }
-            catch { error.Text = "Duration2: Wrong Format"; return; }
-            try
+            if ((ident = Settings.Effects.FromString(Duration2.Text)) != Settings.Effects.Identifier._None)
             {
-                dur3 = Int32.Parse(Duration3.Text);
+                dur2 = (int)Settings.Effects.GetValue(ident);
             }
-            catch { error.Text = "Duration3: Wrong Format"; return; }
-            try
+            else
             {
-                dur4 = Int32.Parse(Duration4.Text);
+                try
+                {
+                    dur2 = Int32.Parse(Duration2.Text);
+                }
+                catch { error.Text = "Duration2: Wrong Format"; return; }
             }
-            catch { error.Text = "Duration4: Wrong Format"; return; }
-            try
+            if ((ident = Settings.Effects.FromString(Duration3.Text)) != Settings.Effects.Identifier._None)
             {
-                mag1 = Math.Round(Double.Parse(Magnitude1.Text, System.Globalization.NumberStyles.Float), 2);
+                dur3 = (int)Settings.Effects.GetValue(ident);
             }
-            catch { error.Text = "Magnitude1: Wrong Format"; return; }
-            try
+            else
             {
-                mag2 = Math.Round(Double.Parse(Magnitude2.Text, System.Globalization.NumberStyles.Float), 2);
+                try
+                {
+                    dur3 = Int32.Parse(Duration3.Text);
+                }
+                catch { error.Text = "Duration3: Wrong Format"; return; }
             }
-            catch { error.Text = "Magnitude2: Wrong Format"; return; }
-            try
+            if ((ident = Settings.Effects.FromString(Duration4.Text)) != Settings.Effects.Identifier._None)
             {
-                mag3 = Math.Round(Double.Parse(Magnitude3.Text, System.Globalization.NumberStyles.Float), 2);
+                dur4 = (int)Settings.Effects.GetValue(ident);
             }
-            catch { error.Text = "Magnitude3: Wrong Format"; return; }
-            try
+            else
             {
-                mag4 = Math.Round(Double.Parse(Magnitude4.Text, System.Globalization.NumberStyles.Float), 2);
+                try
+                {
+                    dur4 = Int32.Parse(Duration4.Text);
+                }
+                catch { error.Text = "Duration4: Wrong Format"; return; }
             }
-            catch { error.Text = "Magnitude4: Wrong Format"; return; }
+            // Magnitudes
+            if ((ident = Settings.Effects.FromString(Magnitude1.Text)) != Settings.Effects.Identifier._None)
+            {
+                mag1 = (int)Settings.Effects.GetValue(ident);
+            }
+            else
+            {
+                try
+                {
+                    mag1 = Math.Round(Double.Parse(Magnitude1.Text, System.Globalization.NumberStyles.Float), 2);
+                }
+                catch { error.Text = "Magnitude1: Wrong Format"; return; }
+            }
+            if ((ident = Settings.Effects.FromString(Magnitude2.Text)) != Settings.Effects.Identifier._None)
+            {
+                mag2 = (int)Settings.Effects.GetValue(ident);
+            }
+            else
+            {
+                try
+                {
+                    mag2 = Math.Round(Double.Parse(Magnitude2.Text, System.Globalization.NumberStyles.Float), 2);
+                }
+                catch { error.Text = "Magnitude2: Wrong Format"; return; }
+            }
+            if ((ident = Settings.Effects.FromString(Magnitude3.Text)) != Settings.Effects.Identifier._None)
+            {
+                mag3 = (int)Settings.Effects.GetValue(ident);
+            }
+            else
+            {
+                try
+                {
+                    mag3 = Math.Round(Double.Parse(Magnitude3.Text, System.Globalization.NumberStyles.Float), 2);
+                }
+                catch { error.Text = "Magnitude3: Wrong Format"; return; }
+            }
+            if ((ident = Settings.Effects.FromString(Magnitude4.Text)) != Settings.Effects.Identifier._None)
+            {
+                mag4 = (int)Settings.Effects.GetValue(ident);
+            }
+            else
+            {
+                try
+                {
+                    mag4 = Math.Round(Double.Parse(Magnitude4.Text, System.Globalization.NumberStyles.Float), 2);
+                }
+                catch { error.Text = "Magnitude4: Wrong Format"; return; }
+            }
 
 
             ingredient.FormID = formid;
             ingredient.EditorID = EditorID.Text;
             ingredient.PluginName = PluginName.Text;
-            ingredient.name = Name.Text;
+            ingredient.name.Content = Name.Text;
             ingredient.value = val;
             ingredient.Weight = weight;
             ingredient.Effect1 = Effect1.SelectedItem as string;

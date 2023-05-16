@@ -154,7 +154,7 @@ namespace GraphicRuleCreator
                                         ing.EditorID = spl[0];
                                     }
                                     ing.PluginName = spl[1];
-                                    ing.name = splits[index];
+                                    ing.name.Update(splits[index]);
                                     index++;
                                     ing.EditorID = splits[index];
                                     index++;
@@ -235,7 +235,7 @@ namespace GraphicRuleCreator
                                         pot.EditorID = spl[0];
                                     }
                                     pot.PluginName = spl[1];
-                                    pot.name = splits[index];
+                                    pot.name.Update(splits[index]);
                                     index++;
                                     pot.EditorID = splits[index];
                                     index++;
@@ -320,101 +320,182 @@ namespace GraphicRuleCreator
             }
         }
 
-        public string CreateRule_Ingredient(Ingredient ing)
+        public string CreateRule_Ingredient(Ingredient ing, out string error)
         {
-            string rule = "";
-            // version
-            rule += "1";
-            // type
-            rule += "|1002";
-            // ident
-            string ident = "<";
+            if (loadprio.SelectedIndex == 0)
             {
-                if (ing.FormID != 0)
-                    ident += ing.FormID.ToString("X");
-                else
-                    ident += ing.EditorID;
-                ident += ",";
-                ident += ing.PluginName;
-                ident += ">";
+                // skip, we cannot save the rule here
+                error = "Cannot save " + ing.name + " in a file with Early load priority";
+                return "";
             }
-            rule += "|" + ident;
-            // name
-            rule += "|" + ing.name;
-            rule += "|" + ing.EditorID;
-            rule += "|" + ing.Weight.ToString();
-            rule += "|" + ing.value.ToString();
-            rule += "|" + ing.Effect1;
-            rule += "|" + ing.Duration1;
-            rule += "|" + ing.Magnitude1;
-            rule += "|" + ing.Effect2;
-            rule += "|" + ing.Duration2;
-            rule += "|" + ing.Magnitude2;
-            rule += "|" + ing.Effect3;
-            rule += "|" + ing.Duration3;
-            rule += "|" + ing.Magnitude3;
-            rule += "|" + ing.Effect4;
-            rule += "|" + ing.Duration4;
-            rule += "|" + ing.Magnitude4;
+            else if (loadprio.SelectedIndex == 4)
+            {
+                string rule = "";
+                // only save modified stuff in selected rules
+                if (ing.name.Modified)
+                {
+                    rule += "1";
+                    rule += "|1005";
+                    // ident
+                    string ident = "<";
+                    {
+                        if (ing.FormID != 0)
+                            ident += ing.FormID.ToString("X");
+                        else
+                            ident += ing.EditorID;
+                        ident += ",";
+                        ident += ing.PluginName;
+                        ident += ">";
+                    }
+                    rule += "|" + ident;
+                    rule += "|" + ing.name;
+                }
 
-            return rule;
+                // add other stuff here
+
+                error = "";
+                return rule;
+            }
+            else
+            {
+                string rule = "";
+                // version
+                rule += "1";
+                // type
+                rule += "|1002";
+                // ident
+                string ident = "<";
+                {
+                    if (ing.FormID != 0)
+                        ident += ing.FormID.ToString("X");
+                    else
+                        ident += ing.EditorID;
+                    ident += ",";
+                    ident += ing.PluginName;
+                    ident += ">";
+                }
+                rule += "|" + ident;
+                // name
+                rule += "|" + ing.name;
+                rule += "|" + ing.EditorID;
+                rule += "|" + ing.Weight.ToString();
+                rule += "|" + ing.value.ToString();
+                rule += "|" + ing.Effect1;
+                rule += "|" + ing.Duration1;
+                rule += "|" + ing.Magnitude1;
+                rule += "|" + ing.Effect2;
+                rule += "|" + ing.Duration2;
+                rule += "|" + ing.Magnitude2;
+                rule += "|" + ing.Effect3;
+                rule += "|" + ing.Duration3;
+                rule += "|" + ing.Magnitude3;
+                rule += "|" + ing.Effect4;
+                rule += "|" + ing.Duration4;
+                rule += "|" + ing.Magnitude4;
+
+                error = "";
+                return rule;
+            }
         }
 
-        public string CreateRule_Potion(Potion pot)
+        public string CreateRule_Potion(Potion pot, out string error)
         {
-            string rule = "";
-            // version
-            rule += "1";
-            // type
-            rule += "|1003";
-            // ident
-            string ident = "<";
+            if (loadprio.SelectedIndex == 0)
             {
-                if (pot.FormID != 0)
-                    ident += pot.FormID.ToString("X");
-                else
-                    ident += pot.EditorID;
-                ident += ",";
-                ident += pot.PluginName;
-                ident += ">";
+                // skip, we cannot save the rule here
+                error = "Cannot save " + pot.name + " in a file with Early load priority";
+                return "";
             }
-            rule += "|" + ident;
-            // name
-            rule += "|" + pot.name;
-            rule += "|" + pot.EditorID;
-            rule += "|" + pot.Weight.ToString();
-            rule += "|" + pot.value.ToString();
-            rule += "|";
-            if (pot.Effect1 != "")
+            else if (loadprio.SelectedIndex == 4)
             {
-                rule += pot.Effect1 + "," + pot.Duration1 + "," + pot.Magnitude1;
-            }
-            if (pot.Effect2 != "")
-            {
-                rule += ";" + pot.Effect2 + "," + pot.Duration2 + "," + pot.Magnitude2;
-            }
-            if (pot.Effect3 != "")
-            {
-                rule += ";" + pot.Effect3 + "," + pot.Duration3 + "," + pot.Magnitude3;
-            }
-            if (pot.Effect4 != "")
-            {
-                rule += ";" + pot.Effect4 + "," + pot.Duration4 + "," + pot.Magnitude4;
-            }
-            if (pot.Effect5 != "")
-            {
-                rule += ";" + pot.Effect5 + "," + pot.Duration5 + "," + pot.Magnitude5;
-            }
-            if (pot.Effect6 != "")
-            {
-                rule += ";" + pot.Effect6 + "," + pot.Duration6 + "," + pot.Magnitude6;
-            }
+                string rule = "";
+                // only save modified stuff in selected rules
+                if (pot.name.Modified)
+                {
+                    rule += "1";
+                    rule += "|1005";
+                    // ident
+                    string ident = "<";
+                    {
+                        if (pot.FormID != 0)
+                            ident += pot.FormID.ToString("X");
+                        else
+                            ident += pot.EditorID;
+                        ident += ",";
+                        ident += pot.PluginName;
+                        ident += ">";
+                    }
+                    rule += "|" + ident;
+                    rule += "|" + pot.name;
+                }
 
-            return rule;
+                // add other stuff here
+                error = "";
+                return rule;
+            }
+            else
+            {
+                string rule = "";
+                // version
+                rule += "1";
+                // type
+                rule += "|1003";
+                // ident
+                string ident = "<";
+                {
+                    if (pot.FormID != 0)
+                        ident += pot.FormID.ToString("X");
+                    else
+                        ident += pot.EditorID;
+                    ident += ",";
+                    ident += pot.PluginName;
+                    ident += ">";
+                }
+                rule += "|" + ident;
+                // name
+                rule += "|" + pot.name;
+                rule += "|" + pot.EditorID;
+                rule += "|" + pot.Weight.ToString();
+                rule += "|" + pot.value.ToString();
+                rule += "|";
+                if (pot.Effect1 != "")
+                {
+                    rule += pot.Effect1 + "," + pot.Duration1 + "," + pot.Magnitude1;
+                }
+                if (pot.Effect2 != "")
+                {
+                    rule += ";" + pot.Effect2 + "," + pot.Duration2 + "," + pot.Magnitude2;
+                }
+                if (pot.Effect3 != "")
+                {
+                    rule += ";" + pot.Effect3 + "," + pot.Duration3 + "," + pot.Magnitude3;
+                }
+                if (pot.Effect4 != "")
+                {
+                    rule += ";" + pot.Effect4 + "," + pot.Duration4 + "," + pot.Magnitude4;
+                }
+                if (pot.Effect5 != "")
+                {
+                    rule += ";" + pot.Effect5 + "," + pot.Duration5 + "," + pot.Magnitude5;
+                }
+                if (pot.Effect6 != "")
+                {
+                    rule += ";" + pot.Effect6 + "," + pot.Duration6 + "," + pot.Magnitude6;
+                }
+
+                error = "";
+                return rule;
+            }
         }
 
-        public string CreateRule_Effect(Effects eff)
+        public string CreateRule_Effect(Effects eff, out string error)
         {
+            if (loadprio.SelectedIndex == 1 || loadprio.SelectedIndex == 2 || loadprio.SelectedIndex == 3 || loadprio.SelectedIndex == 4)
+            {
+                error = "Cannot save Effect " + eff.name + " in a file with anything but Early load priority";
+                return "";
+            }
+
             string rule = "";
 
             // version
@@ -452,6 +533,7 @@ namespace GraphicRuleCreator
             else
                 rule += "|0";
 
+            error = "";
             return rule;
         }
 
@@ -467,6 +549,13 @@ namespace GraphicRuleCreator
             InitializeComponent();
             // load all available rules
 
+            ContextMenu menu = new ContextMenu();
+            constraints.ContextMenu = menu;
+            MenuItem m = new MenuItem();
+            m.Header = "Add";
+            m.Click += M_Click; ;
+            menu.Items.Add(m);
+
             updatesIng.Clear();
             updatesPot.Clear();
 
@@ -476,6 +565,35 @@ namespace GraphicRuleCreator
             WinPot.Show();
             WinEff = new AlchemyExpansionEffects(this);
             WinEff.Show();
+
+            // get current dir
+            string path = Environment.CurrentDirectory;
+            if (path != null)
+            {
+                // search for all valid rule files in the current directory
+                string[] files = System.IO.Directory.GetFiles(path);
+                List<string> lfiles = new List<string>(files);
+                lfiles.Sort();
+                files = lfiles.ToArray();
+
+                foreach (string file in files)
+                {
+                    if (file.Substring(file.Length - "_ALCH_DIST.ini".Length) == "_ALCH_DIST.ini")
+                    {
+                        CheckBox box = new CheckBox();
+                        box.Content = System.IO.Path.GetFileName(file);
+                        filesList.Items.Add(box);
+                    }
+                }
+            }
+        }
+
+        private static List<int> af_loadprio = new List<int>();
+
+        private void M_Click(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = new TextBox();
+            constraints.Items.Add(textBox);
         }
 
         public void WriteConsole(string message)
@@ -523,6 +641,8 @@ namespace GraphicRuleCreator
         {
             activeFile.Items.Clear();
             activeFile.Items.Add("");
+            af_loadprio.Clear();
+            af_loadprio.Add(2);
             lc++;
             WriteConsole("Loading files");
             GraphicRuleCreator.Effects.effects.Clear();
@@ -532,11 +652,37 @@ namespace GraphicRuleCreator
             if (path != null)
             {
                 // search for all valid rule files in the current directory
-                string[] files = System.IO.Directory.GetFiles(path);
-                List<string> lfiles = new List<string>(files);
+                //string[] files = System.IO.Directory.GetFiles(path);
+
+                List<string> lfiles = new List<string>();
+
+                foreach (object o in filesList.Items)
+                {
+                    CheckBox? box = o as CheckBox;
+                    if (box != null && box.IsChecked.HasValue && box.IsChecked.Value)
+                    {
+                        string file = path + System.IO.Path.DirectorySeparatorChar + (box.Content as string);
+                        lfiles.Add(file);
+                    }
+                }
+
                 lfiles.Sort();
-                files = lfiles.ToArray();
+                string[] files = lfiles.ToArray();
+
+                List<string> l_early = new List<string>();
+                List<string> l_defaultearly = new List<string>();
+                List<string> l_default = new List<string>();
+                List<string> l_defaultlate = new List<string>();
+                List<string> l_late = new List<string>();
+
+                List<string> l_earlyfiles = new List<string>();
+                List<string> l_defaultearlyfiles = new List<string>();
+                List<string> l_defaultfiles = new List<string>();
+                List<string> l_defaultlatefiles = new List<string>();
+                List<string> l_latefiles = new List<string>();
+
                 List<string> lines = new List<string>();
+                List<string> linesfiles = new List<string>();
 
                 foreach (string file in files)
                 {
@@ -545,22 +691,88 @@ namespace GraphicRuleCreator
                         WriteConsole("Loading file " + file);
                         try
                         {
+                            int prio = 0;
                             string[] tmp = System.IO.File.ReadAllLines(file);
-                            lines.AddRange(tmp);
-                            for (int i = 0; i < tmp.Length; i++)
+                            if (tmp.Length > 0)
                             {
-                                ProcessRule(tmp[i], System.IO.Path.GetFileName(file));
+                                if (tmp[0].ToLower().Contains("load=early"))
+                                {
+                                    prio = 0;
+                                    l_early.AddRange(tmp);
+                                    for (int i = 0; i < tmp.Length; i++)
+                                    {
+                                        l_earlyfiles.Add(file);
+                                    }
+                                }
+                                else if (tmp[0].ToLower().Contains("load=default_"))
+                                {
+                                    prio = 1;
+                                    l_defaultearly.AddRange(tmp);
+                                    for (int i = 0; i < tmp.Length; i++)
+                                    {
+                                        l_defaultearlyfiles.Add(file);
+                                    }
+                                }
+                                else if (tmp[0].ToLower().Contains("load=defaultearly"))
+                                {
+                                    prio = 2;
+                                    l_default.AddRange(tmp);
+                                    for (int i = 0; i < tmp.Length; i++)
+                                    {
+                                        l_defaultfiles.Add(file);
+                                    }
+                                }
+                                else if (tmp[0].ToLower().Contains("load=defaultlate"))
+                                {
+                                    prio = 3;
+                                    l_defaultlate.AddRange(tmp);
+                                    for (int i = 0; i < tmp.Length; i++)
+                                    {
+                                        l_defaultlatefiles.Add(file);
+                                    }
+                                }
+                                else if (tmp[0].ToLower().Contains("load=late"))
+                                {
+                                    prio = 4;
+                                    l_late.AddRange(tmp);
+                                    for (int i = 0; i < tmp.Length; i++)
+                                    {
+                                        l_latefiles.Add(file);
+                                    }
+                                }
+                                else
+                                {
+                                    prio = 2;
+                                    l_default.AddRange(tmp);
+                                    for (int i = 0; i < tmp.Length; i++)
+                                    {
+                                        l_defaultfiles.Add(file);
+                                    }
+                                }
                             }
                             activeFile.Items.Add(System.IO.Path.GetFileName(file));
+                            af_loadprio.Add(prio);
                         }
                         catch { }
                     }
                 }
 
-                /*for (int i = 0; i < lines.Count; i++)
+                lines.AddRange(l_early);
+                lines.AddRange(l_defaultearly);
+                lines.AddRange(l_default);
+                lines.AddRange(l_defaultlate);
+                lines.AddRange(l_late);
+
+                linesfiles.AddRange(l_earlyfiles);
+                linesfiles.AddRange(l_defaultearlyfiles);
+                linesfiles.AddRange(l_defaultfiles);
+                linesfiles.AddRange(l_defaultlatefiles);
+                linesfiles.AddRange(l_latefiles);
+
+                for (int i = 0; i < lines.Count; i++)
                 {
-                    ProcessRule(lines[i]);
-                }*/
+                    ProcessRule(lines[i], linesfiles[i]);
+                }
             }
 
             Utility.CalcAllReferences();
@@ -605,11 +817,40 @@ namespace GraphicRuleCreator
             WriteConsole("Saving Failed");
         }
 
-        public void PerformSave(bool overwrite, string file, string filename = "")
+        public void PerformSave(bool overwrite, string file, string filename = "", int prio = -1)
         {
+            List<string> errors = new List<string>();
             if (file != null)
             {
                 List<string> rules = new List<string>();
+
+                switch (loadprio.SelectedIndex)
+                {
+                    case 0:
+                        rules.Add("load=early");
+                        break;
+                    case 1:
+                        rules.Add("load=defaultearly");
+                        break;
+                    case 2:
+                        rules.Add("load=default_");
+                        break;
+                    case 3:
+                        rules.Add("load=defaultlate");
+                        break;
+                    case 4:
+                        rules.Add("load=late");
+                        break;
+                }
+
+                foreach (object o in constraints.Items)
+                {
+                    TextBox? box = o as TextBox;
+                    if (box != null)
+                    {
+                        rules.Add("if_plugin=" + box.Text);
+                    }
+                }
 
                 rules.Add("; Configuration of the mod AlchemyExpansion");
                 rules.Add("");
@@ -637,12 +878,19 @@ namespace GraphicRuleCreator
                     var list = pair.Value;
                     for (int i = 0; i < list.Count; i++)
                     {
-                        if (list[i].modified == false && !overwrite && list[i].file != filename)
+                        if (list[i].modified == false && !overwrite && list[i].file != file)
                             continue;
-                        if (list[i].EditorID != "")
-                            strings.Add("; " + list[i].EditorID);
-                        strings.Add(CreateRule_Effect(list[i]));
-                        strings.Add("");
+                        string error = "";
+                        string rule = CreateRule_Effect(list[i], out error);
+                        if (error != "")
+                            errors.Add(error);
+                        else
+                        {
+                            if (list[i].EditorID != "")
+                                strings.Add("; " + list[i].EditorID);
+                            strings.Add(rule);
+                            strings.Add("");
+                        }
                     }
 
                     if (strings.Count > 0)
@@ -683,12 +931,19 @@ namespace GraphicRuleCreator
                     var list = pair.Value;
                     for (int i = 0; i < list.Count; i++)
                     {
-                        if (list[i].modified == false && !overwrite && list[i].file != filename)
+                        if (list[i].modified == false && !overwrite && list[i].file != file)
                             continue;
-                        if (list[i].EditorID != "")
-                            strings.Add("; " + list[i].EditorID);
-                        strings.Add(CreateRule_Ingredient(list[i]));
-                        strings.Add("");
+                        string error = "";
+                        string rule = CreateRule_Ingredient(list[i], out error);
+                        if (error != "")
+                            errors.Add(error);
+                        else
+                        {
+                            if (list[i].EditorID != "")
+                                strings.Add("; " + list[i].EditorID);
+                            strings.Add(rule);
+                            strings.Add("");
+                        }
                     }
 
                     if (strings.Count > 0)
@@ -730,12 +985,19 @@ namespace GraphicRuleCreator
                     var list = pair.Value;
                     for (int i = 0; i < list.Count; i++)
                     {
-                        if (list[i].modified == false && !overwrite && list[i].file != filename)
+                        if (list[i].modified == false && !overwrite && list[i].file != file)
                             continue;
-                        if (list[i].EditorID != "")
-                            strings.Add("; " + list[i].EditorID);
-                        strings.Add(CreateRule_Potion(list[i]));
-                        strings.Add("");
+                        string error = "";
+                        string rule = CreateRule_Potion(list[i], out error);
+                        if (error != "")
+                            errors.Add(error);
+                        else
+                        {
+                            if (list[i].EditorID != "")
+                                strings.Add("; " + list[i].EditorID);
+                            strings.Add(rule);
+                            strings.Add("");
+                        }
                     }
 
                     if (strings.Count > 0)
@@ -760,7 +1022,14 @@ namespace GraphicRuleCreator
 
                 }
 
-                WriteConsole("Saving Finished");
+                string message = "";
+                for (int i = 0; i < errors.Count; i++)
+                {
+                    message += errors[i] + "\n";
+                }
+
+
+                WriteConsole(message + "\nSaving Finished");
                 return;
             }
         }
@@ -778,6 +1047,30 @@ namespace GraphicRuleCreator
         private void SelectActiveFile_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void constraints_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete) { 
+                if (constraints.SelectedIndex != -1)
+                {
+                    constraints.Items.RemoveAt(constraints.SelectedIndex);
+                }
+            }
+        }
+
+        private void activeFile_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (activeFile != null)
+            {
+                if (activeFile.SelectedIndex != -1) {
+                    try
+                    {
+                        loadprio.SelectedIndex = af_loadprio[activeFile.SelectedIndex];
+                    }
+                    catch { }
+                }
+            }
         }
     }
 }

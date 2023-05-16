@@ -47,7 +47,7 @@ namespace GraphicRuleCreator
                 overwrite.IsChecked = false;
             }
 
-            for (int i = -1; i < 163; i++)
+            for (int i = -1; i <= 163; i++)
             {
                 actorValue.Items.Add(((ActorValue)i).ToString());
             }

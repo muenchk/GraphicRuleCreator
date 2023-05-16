@@ -8,7 +8,7 @@ namespace GraphicRuleCreator
 {
     public class Potion
     {
-        public String name { get; set; } = "";
+        public StringProperty name { get; set; } = new StringProperty("");
         public String EditorID { get; set; } = "";
         public UInt32 FormID { get; set; } = 0;
         public String PluginName { get; set; } = "";

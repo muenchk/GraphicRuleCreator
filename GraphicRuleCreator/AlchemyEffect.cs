@@ -1,6 +1,7 @@
 ﻿
 using GraphicRuleCreator;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Windows;
 using System.Windows.Media.Effects;
 
@@ -42,7 +43,10 @@ public class Alchem
 
     public override string ToString()
     {
-        return ((UInt64)_first).ToString("X") + ((UInt64)_second).ToString("X16");
+        if (firstenum)
+            return ((UInt64)_first).ToString("X") + ((UInt64)_second).ToString("X16");
+        else
+            return ((UInt64)_second).ToString("X");
     }
 }
 
@@ -1113,4 +1117,406 @@ public class Utility
         }
     }
 
+}
+
+public class Settings
+{
+    public struct Effects
+    {
+
+        public enum Identifier
+        {
+            _None = 0,
+            _MagPositiveScaleBasicIdent = 0xFFFFF00,
+            _MagPositiveScaleBasicRareIdent = 0xFFFFF01,
+            _MagPositiveScaleBasicTimeIdent = 0xFFFFF02,
+            _MagPositiveScaleTimeIdent = 0xFFFFF03,
+            _MagPositiveScaleTimeRareIdent = 0xFFFFF04,
+            _MagPositiveScaleTimeEpicIdent = 0xFFFFF05,
+            _MagNegativeScaleBasicIdent = 0xFFFFF06,
+            _MagNegativeScaleBasicRareIdent = 0xFFFFF07,
+            _MagNegativeScaleBasicTimeIdent = 0xFFFFF08,
+            _MagNegativeScaleTimeIdent = 0xFFFFF09,
+            _MagNegativeScaleTimeRareIdent = 0xFFFFF0A,
+            _MagNegativeScaleTimeEpicIdent = 0xFFFFF0B,
+            _DurPositiveBasicIdent = 0xFFFFF0C,
+            _DurPositiveBasicTimeIdent = 0xFFFFF0D,
+            _DurPositiveTimeIdent = 0xFFFFF0E,
+            _DurPositiveTimeAltIdent = 0xFFFFF17,
+            _DurPositiveTimeRareIdent = 0xFFFFF0F,
+            _DurPositiveTimeEpicIdent = 0xFFFFF10,
+            _DurNegativeBasicIdent = 0xFFFFF11,
+            _DurNegativeBasicTimeIdent = 0xFFFFF12,
+            _DurNegativeTimeIdent = 0xFFFFF13,
+            _DurNegativeTimeAltIdent = 0xFFFFF16,
+            _DurNegativeTimeRareIdent = 0xFFFFF14,
+            _DurNegativeTimeEpicIdent = 0xFFFFF15,
+
+            // max : 0xFFFFF17
+        }
+
+        /// <summary>
+        /// Magnitude scale factor for positive basic effects (e.g. Restore Health)
+        /// </summary>
+        static readonly float _MagPositiveScaleBasic;
+        /// <summary>
+        /// Magnitude scale factor for rare positive basic effects (e.g. stronger Restore Health)
+        /// </summary>
+        static readonly float _MagPositiveScaleBasicRare;
+        /// <summary>
+        /// Magnitude scale factor for positive basic effects over time (e.g. Regenerate Health)
+        /// </summary>
+        static readonly float _MagPositiveScaleBasicTime;
+        /// <summary>
+        /// Magnitude scale factor for positive long-term effects (e.g. Fortify Block)
+        /// </summary>
+        static readonly float _MagPositiveScaleTime;
+        /// <summary>
+        /// Magnitude scale factor for rare positive long-term effects (e.g. Quick Drawing)
+        /// </summary>
+        static readonly float _MagPositiveScaleTimeRare;
+        /// <summary>
+        /// Magnitude scale factor for epic positive long-term effects (e.g. Reflect Damage)
+        /// </summary>
+        static readonly float _MagPositiveScaleTimeEpic;
+
+        /// <summary>
+        /// Magnitude scale for basic negative effects (e.g. Damage Health)
+        /// </summary>
+        static readonly float _MagNegativeScaleBasic;
+        /// <summary>
+        /// Magnitude scale for basic negative effects (e.g. Ravage Health)
+        /// </summary>
+        static readonly float _MagNegativeScaleBasicRare;
+        /// <summary>
+        /// Magnitude scale for basic negative effects (e.g. Lingering Damage Health)
+        /// </summary>
+        static readonly float _MagNegativeScaleBasicTime;
+        /// <summary>
+        /// Magnitude scale for negative long-term effects (e.g. Damage Block)
+        /// </summary>
+        static readonly float _MagNegativeScaleTime;
+        /// <summary>
+        /// Magnitude scale for rare negative long-term effects (e.g. Frailty)
+        /// </summary>
+        static readonly float _MagNegativeScaleTimeRare;
+        /// <summary>
+        /// Magnitude scale for epic negative long-term effects (e.g. )
+        /// </summary>
+        static readonly float _MagNegativeScaleTimeEpic;
+
+        /// <summary>
+        /// Duration for basic positive effects (e.g. Restore Health)
+        /// </summary>
+        static readonly float _DurPositiveBasic;
+        /// <summary>
+        /// Duration for basic positive effects over time (e.g. Regenerate Health)
+        /// </summary>
+        static readonly float _DurPositiveBasicTime;
+        /// <summary>
+        /// Duration for positive long-term effects (e.g. Fortify Block)
+        /// </summary>
+        static readonly float _DurPositiveTime;
+        /// <summary>
+        /// Duration for alternative positive long-term effects (e.g. Fortify Health Regeneration)
+        /// </summary>
+        static readonly float _DurPositiveTimeAlt;
+        /// <summary>
+        /// Duration for Rare positive long-term effects (e.g. Quick Drawing)
+        /// </summary>
+        static readonly float _DurPositiveTimeRare;
+        /// <summary>
+        /// Duration for Epic positive long-term effects (e.g. Reflect Damage)
+        /// </summary>
+        static readonly float _DurPositiveTimeEpic;
+
+        /// <summary>
+        /// Duration for basic negative effects (e.g. Damage Health)
+        /// </summary>
+        static readonly float _DurNegativeBasic;
+        /// <summary>
+        /// Duration for basic negative effects (e.g. Lingering Damage Health)
+        /// </summary>
+        static readonly float _DurNegativeBasicTime;
+        /// <summary>
+        /// Duration for negative long-term effects (e.g. Damage Block)
+        /// </summary>
+        static readonly float _DurNegativeTime;
+        /// <summary>
+        /// Duration for alternative negative long-term effects (e.g. Reduce Health Regen)
+        /// </summary>
+        static readonly float _DurNegativeTimeAlt;
+        /// <summary>
+        /// Duration for rare negative long-term effects (e.g. Frailty)
+        /// </summary>
+        static readonly float _DurNegativeTimeRare;
+        /// <summary>
+        /// Duration for epic negative long-term effects (e.g. )
+        /// </summary>
+        static readonly float _DurNegativeTimeEpic;
+
+        public static Identifier GetType(int value)
+        {
+            switch (value)
+            {
+                case (int)(Identifier._MagPositiveScaleBasicIdent):
+                    return Identifier._MagPositiveScaleBasicIdent;
+                case (int)(Identifier._MagPositiveScaleBasicRareIdent):
+                    return Identifier._MagPositiveScaleBasicRareIdent;
+                case (int)(Identifier._MagPositiveScaleBasicTimeIdent):
+                    return Identifier._MagPositiveScaleBasicTimeIdent;
+                case (int)(Identifier._MagPositiveScaleTimeIdent):
+                    return Identifier._MagPositiveScaleTimeIdent;
+                case (int)(Identifier._MagPositiveScaleTimeRareIdent):
+                    return Identifier._MagPositiveScaleTimeRareIdent;
+                case (int)(Identifier._MagPositiveScaleTimeEpicIdent):
+                    return Identifier._MagPositiveScaleTimeEpicIdent;
+                case (int)(Identifier._MagNegativeScaleBasicIdent):
+                    return Identifier._MagNegativeScaleBasicIdent;
+                case (int)(Identifier._MagNegativeScaleBasicRareIdent):
+                    return Identifier._MagNegativeScaleBasicRareIdent;
+                case (int)(Identifier._MagNegativeScaleBasicTimeIdent):
+                    return Identifier._MagNegativeScaleBasicTimeIdent;
+                case (int)(Identifier._MagNegativeScaleTimeIdent):
+                    return Identifier._MagNegativeScaleTimeIdent;
+                case (int)(Identifier._MagNegativeScaleTimeRareIdent):
+                    return Identifier._MagNegativeScaleTimeRareIdent;
+                case (int)(Identifier._MagNegativeScaleTimeEpicIdent):
+                    return Identifier._MagNegativeScaleTimeEpicIdent;
+                case (int)(Identifier._DurPositiveBasicIdent):
+                    return Identifier._DurPositiveBasicIdent;
+                case (int)(Identifier._DurPositiveBasicTimeIdent):
+                    return Identifier._DurPositiveBasicTimeIdent;
+                case (int)(Identifier._DurPositiveTimeIdent):
+                    return Identifier._DurPositiveTimeIdent;
+                case (int)(Identifier._DurPositiveTimeAltIdent):
+                    return Identifier._DurPositiveTimeAltIdent;
+                case (int)(Identifier._DurPositiveTimeRareIdent):
+                    return Identifier._DurPositiveTimeRareIdent;
+                case (int)(Identifier._DurPositiveTimeEpicIdent):
+                    return Identifier._DurPositiveTimeEpicIdent;
+                case (int)(Identifier._DurNegativeBasicIdent):
+                    return Identifier._DurNegativeBasicIdent;
+                case (int)(Identifier._DurNegativeBasicTimeIdent):
+                    return Identifier._DurNegativeBasicTimeIdent;
+                case (int)(Identifier._DurNegativeTimeIdent):
+                    return Identifier._DurNegativeTimeIdent;
+                case (int)(Identifier._DurNegativeTimeAltIdent):
+                    return Identifier._DurNegativeTimeAltIdent;
+                case (int)(Identifier._DurNegativeTimeRareIdent):
+                    return Identifier._DurNegativeTimeRareIdent;
+                case (int)(Identifier._DurNegativeTimeEpicIdent):
+                    return Identifier._DurNegativeTimeEpicIdent;
+                default:
+                    return Identifier._None;
+            }
+        }
+
+        public static float GetValue(Identifier ident)
+        {
+            switch (ident)
+            {
+                case Identifier._MagPositiveScaleBasicIdent:
+                    return _MagPositiveScaleBasic;
+                case Identifier._MagPositiveScaleBasicRareIdent:
+                    return _MagPositiveScaleBasicRare;
+                case Identifier._MagPositiveScaleBasicTimeIdent:
+                    return _MagPositiveScaleBasicTime;
+                case Identifier._MagPositiveScaleTimeIdent:
+                    return _MagPositiveScaleTime;
+                case Identifier._MagPositiveScaleTimeRareIdent:
+                    return _MagPositiveScaleTimeRare;
+                case Identifier._MagPositiveScaleTimeEpicIdent:
+                    return _MagPositiveScaleTimeEpic;
+                case Identifier._MagNegativeScaleBasicIdent:
+                    return _MagNegativeScaleBasic;
+                case Identifier._MagNegativeScaleBasicRareIdent:
+                    return _MagNegativeScaleBasicRare;
+                case Identifier._MagNegativeScaleBasicTimeIdent:
+                    return _MagNegativeScaleBasicTime;
+                case Identifier._MagNegativeScaleTimeIdent:
+                    return _MagNegativeScaleTime;
+                case Identifier._MagNegativeScaleTimeRareIdent:
+                    return _MagNegativeScaleTimeRare;
+                case Identifier._MagNegativeScaleTimeEpicIdent:
+                    return _MagNegativeScaleTimeEpic;
+                case Identifier._DurPositiveBasicIdent:
+                    return _DurPositiveBasic;
+                case Identifier._DurPositiveBasicTimeIdent:
+                    return _DurPositiveBasicTime;
+                case Identifier._DurPositiveTimeIdent:
+                    return _DurPositiveTime;
+                case Identifier._DurPositiveTimeAltIdent:
+                    return _DurPositiveTimeAlt;
+                case Identifier._DurPositiveTimeRareIdent:
+                    return _DurPositiveTimeRare;
+                case Identifier._DurPositiveTimeEpicIdent:
+                    return _DurPositiveTimeEpic;
+                case Identifier._DurNegativeBasicIdent:
+                    return _DurNegativeBasic;
+                case Identifier._DurNegativeBasicTimeIdent:
+                    return _DurNegativeBasicTime;
+                case Identifier._DurNegativeTimeIdent:
+                    return _DurNegativeTime;
+                case Identifier._DurNegativeTimeAltIdent:
+                    return _DurNegativeTimeAlt;
+                case Identifier._DurNegativeTimeRareIdent:
+                    return _DurNegativeTimeRare;
+                case Identifier._DurNegativeTimeEpicIdent:
+                    return _DurNegativeTimeEpic;
+                default:
+                    return 0;
+            }
+        }
+
+        public static string[] conversion = {
+            "MagPositiveScaleBasic".ToLower(),
+            "MagPositiveScaleBasicRare".ToLower(),
+            "MagPositiveScaleBasicTime".ToLower(),
+            "MagPositiveScaleTime".ToLower(),
+            "MagPositiveScaleTimeRare".ToLower(),
+            "MagPositiveScaleTimeEpic".ToLower(),
+            "MagNegativeScaleBasic".ToLower(),
+            "MagNegativeScaleBasicRare".ToLower(),
+            "MagNegativeScaleBasicTime".ToLower(),
+            "MagNegativeScaleTime".ToLower(),
+            "MagNegativeScaleTimeRare".ToLower(),
+            "MagNegativeScaleTimeEpic".ToLower(),
+            "DurPositiveBasic".ToLower(),
+            "DurPositiveBasicTime".ToLower(),
+            "DurPositiveTime".ToLower(),
+            "DurPositiveTimeAlt".ToLower(),
+            "DurPositiveTimeRare".ToLower(),
+            "DurPositiveTimeEpic".ToLower(),
+            "DurNegativeBasic".ToLower(),
+            "DurNegativeBasicTime".ToLower(),
+            "DurNegativeTime".ToLower(),
+            "DurNegativeTimeAlt".ToLower(),
+            "DurNegativeTimeRare".ToLower(),
+            "DurNegativeTimeEpic".ToLower()
+        };
+
+        public static string ToString(Identifier ident)
+        {
+            switch (ident)
+            {
+                case Identifier._MagPositiveScaleBasicIdent:
+                    return conversion[0];
+                case Identifier._MagPositiveScaleBasicRareIdent:
+                    return conversion[1];
+                case Identifier._MagPositiveScaleBasicTimeIdent:
+                    return conversion[2];
+                case Identifier._MagPositiveScaleTimeIdent:
+                    return conversion[3];
+                case Identifier._MagPositiveScaleTimeRareIdent:
+                    return conversion[4];
+                case Identifier._MagPositiveScaleTimeEpicIdent:
+                    return conversion[5];
+                case Identifier._MagNegativeScaleBasicIdent:
+                    return conversion[6];
+                case Identifier._MagNegativeScaleBasicRareIdent:
+                    return conversion[7];
+                case Identifier._MagNegativeScaleBasicTimeIdent:
+                    return conversion[8];
+                case Identifier._MagNegativeScaleTimeIdent:
+                    return conversion[9];
+                case Identifier._MagNegativeScaleTimeRareIdent:
+                    return conversion[10];
+                case Identifier._MagNegativeScaleTimeEpicIdent:
+                    return conversion[11];
+                case Identifier._DurPositiveBasicIdent:
+                    return conversion[12];
+                case Identifier._DurPositiveBasicTimeIdent:
+                    return conversion[13];
+                case Identifier._DurPositiveTimeIdent:
+                    return conversion[14];
+                case Identifier._DurPositiveTimeAltIdent:
+                    return conversion[15];
+                case Identifier._DurPositiveTimeRareIdent:
+                    return conversion[16];
+                case Identifier._DurPositiveTimeEpicIdent:
+                    return conversion[17];
+                case Identifier._DurNegativeBasicIdent:
+                    return conversion[18];
+                case Identifier._DurNegativeBasicTimeIdent:
+                    return conversion[19];
+                case Identifier._DurNegativeTimeIdent:
+                    return conversion[20];
+                case Identifier._DurNegativeTimeAltIdent:
+                    return conversion[21];
+                case Identifier._DurNegativeTimeRareIdent:
+                    return conversion[22];
+                case Identifier._DurNegativeTimeEpicIdent:
+                    return conversion[23];
+                default:
+                    return "";
+            }
+        }
+
+        public static Identifier FromString(string str)
+        {
+            int index = int.MaxValue;
+            for (int i = 0; i < conversion.Length; i++)
+            {
+                if (conversion[i] == str.ToLower())
+                {
+                    index = i;
+                    break;
+                }
+            }
+            switch (index)
+            {
+                case 0:
+                    return Identifier._MagPositiveScaleBasicIdent;
+                case 1:
+                    return Identifier._MagPositiveScaleBasicRareIdent;
+                case 2:
+                    return Identifier._MagPositiveScaleBasicTimeIdent;
+                case 3:
+                    return Identifier._MagPositiveScaleTimeIdent;
+                case 4:
+                    return Identifier._MagPositiveScaleTimeRareIdent;
+                case 5:
+                    return Identifier._MagPositiveScaleTimeEpicIdent;
+                case 6:
+                    return Identifier._MagNegativeScaleBasicIdent;
+                case 7:
+                    return Identifier._MagNegativeScaleBasicRareIdent;
+                case 8:
+                    return Identifier._MagNegativeScaleBasicTimeIdent;
+                case 9:
+                    return Identifier._MagNegativeScaleTimeIdent;
+                case 10:
+                    return Identifier._MagNegativeScaleTimeRareIdent;
+                case 11:
+                    return Identifier._MagNegativeScaleTimeEpicIdent;
+                case 12:
+                    return Identifier._DurPositiveBasicIdent;
+                case 13:
+                    return Identifier._DurPositiveBasicTimeIdent;
+                case 14:
+                    return Identifier._DurPositiveTimeIdent;
+                case 15:
+                    return Identifier._DurPositiveTimeAltIdent;
+                case 16:
+                    return Identifier._DurPositiveTimeRareIdent;
+                case 17:
+                    return Identifier._DurPositiveTimeEpicIdent;
+                case 18:
+                    return Identifier._DurNegativeBasicIdent;
+                case 19:
+                    return Identifier._DurNegativeBasicTimeIdent;
+                case 20:
+                    return Identifier._DurNegativeTimeIdent;
+                case 21:
+                    return Identifier._DurNegativeTimeAltIdent;
+                case 22:
+                    return Identifier._DurNegativeTimeRareIdent;
+                case 23:
+                    return Identifier._DurNegativeTimeEpicIdent;
+                default:
+                    return Identifier._None;
+            }
+        }
+    }
 }

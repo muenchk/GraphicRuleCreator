@@ -10,7 +10,7 @@
         <ListView x:Name="IngredienstView" Margin="10,50,10,0" ScrollViewer.HorizontalScrollBarVisibility="Auto" Background="White" MouseDoubleClick="Ing_MouseDoubleClick" Height="824" VerticalAlignment="Top" >
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Width="150" DisplayMemberBinding="{Binding name}" >
+                    <GridViewColumn Width="150" DisplayMemberBinding="{Binding name.Content}" >
                         <GridViewColumn.Header>
                             <GridViewColumnHeader Tag="name" Click="GridViewColumnHeader_Click">Name</GridViewColumnHeader>
                         </GridViewColumn.Header>
